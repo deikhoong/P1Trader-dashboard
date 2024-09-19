@@ -32,10 +32,9 @@ function Login() {
 
   return (
     <div className='w-full h-screen flex justify-center items-center'>
-      <div className='py-6 px-12 rounded-md bg-white flex justify-center items-center flex-col'>
+      <div className='py-6 px-12 rounded-md bg-white flex justify-center items-center flex-col min-w-[353px]'>
         <div className="text-black text-2xl leading-[30px] mb-8 text-center font-bold">登入</div>
         <Form<LoginForm>
-          className='w-full max-w-[320px]'
           layout="vertical"
           autoComplete="off"
           form={form} 
@@ -48,11 +47,11 @@ function Login() {
             rules={[
               {
                 type: 'email',
-                message: 'The input is not valid E-mail!',
+                message: 'input is not valid E-mail',
               },
               {
                 required: true,
-                message: 'Please input your E-mail!',
+                message: 'input your E-mail',
               },
             ]}
           >
@@ -61,13 +60,14 @@ function Login() {
           <Form.Item
             label="password"
             name="password"
-            rules={[{ required: true, message: 'Password length must greater than 8', min: 8 }]}
+            rules={[{ required: true, message: 'length must greater than 8', min: 8 }]}
           >
             <Input.Password placeholder="password" prefix={<LockOutlined />} />
           </Form.Item>
           <Form.Item shouldUpdate>
             {() => (
               <Button
+                className="mt-4"
                 type="primary"
                 htmlType="submit"
                 block
