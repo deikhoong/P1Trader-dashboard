@@ -3,6 +3,7 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
 import ProtectedRoute from "./ProtectedRoutes";
+import UserList from "./pages/users/UserList";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const MainRoutes = () => (
@@ -22,6 +23,8 @@ export const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
+        path: "/users",
+        element: <UserList />,
       },   
     ],
   },
