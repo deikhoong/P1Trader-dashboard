@@ -1,12 +1,13 @@
-import {Breadcrumb, theme, Typography, Table, Button, message} from "antd";
+import {Breadcrumb, theme, Typography, Table, Button, message, Modal, Input, Form, Select,} from "antd";
 
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
-import {EditOutlined} from "@ant-design/icons";
-import type {PaginationProps, TablePaginationConfig} from "antd";
+import {EditOutlined, PlusOutlined} from "@ant-design/icons";
+import type { TablePaginationConfig} from "antd";
 import {useNavigate} from "react-router-dom";
-import {GetUsers} from "../../api/users";
-import {Pagination} from "../../api/api.types";
+import {CreateUser, GetUsers} from "../../api/users";
+import {Pagination, User, UserRole} from "../../api/api.types";
+
 
 interface TableParams {
   pagination?: TablePaginationConfig;
@@ -14,111 +15,91 @@ interface TableParams {
 
 export default function UserList() {
   const [loading, setLoading] = useState(false);
-  const [allData, setAllData] = useState<[]>([]);
-  const [messageApi, contextHolder] = message.useMessage();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [users, setUsers] = useState<User[]>([]);
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
       pageSize: 10,
-      showSizeChanger: false,
-      position: ["topRight"],
-      onChange(page, pageSize) {
-        if (onPageChange) {
-          onPageChange(page, pageSize);
-        }
-      },
     },
   });
+  const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
-  const {
-    token: {colorBgContainer, borderRadiusLG},
-  } = theme.useToken();
+  const { token } = theme.useToken();
 
-  const fetchUsers = async (pagination?: Pagination) => {
+  const fetchUsers = useCallback(async (params: Pagination = {
+    page: 1,
+    take: 10
+  }) => {
     try {
       setLoading(true);
-      const current = pagination?.page ?? tableParams.pagination!.current ?? 1;
-      const take = pagination?.take ?? tableParams.pagination!.pageSize ?? 10;
+      const { page = tableParams.pagination?.current ?? 1, take = tableParams.pagination?.pageSize ?? 10 } = params;
+      const response = await GetUsers({ page, take });
 
-      const response = await GetUsers({page: current, take});
-
-      setAllData(response.data.data);
-
-      setTableParams({
-        ...tableParams,
+      setUsers(response.data.data);
+      setTableParams(prev => ({
+        ...prev,
         pagination: {
-          ...tableParams.pagination,
+          ...prev.pagination,
           current: response.data.meta.page,
           pageSize: response.data.meta.take,
           total: response.data.meta.itemCount,
         },
-      });
+      }));
     } catch (error) {
       console.error(error);
       messageApi.error("無法取得使用者列表");
     } finally {
       setLoading(false);
     }
-  };
+  }, [messageApi, tableParams.pagination]);
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, []); 
 
-  const onPageChange: PaginationProps["onChange"] = (page, pageSize) => {
-    fetchUsers({page, take: pageSize});
-    setTableParams((prev) => ({
-      pagination: {
-        ...prev.pagination,
-        current: page,
-        pageSize: pageSize,
-      },
-    }));
+
+  const handleTableChange = (pagination: TableParams['pagination']) => {
+    fetchUsers({ page: pagination?.current ?? 1, take: pagination?.pageSize ?? 10 });
+  };
+  
+  const handleAddUser = () => setIsModalOpen(true);
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    form.resetFields();
   };
 
-  const onEdit = async (id: string) => {
-    navigate(`/admin/users/${id}`);
+
+  const handleCreateUser = async () => {
+    try {
+      const values = await form.validateFields();
+      await CreateUser(values);
+      messageApi.success('使用者已成功建立！');
+      setIsModalOpen(false);
+      form.resetFields();
+      fetchUsers();
+    } catch (error: any) {
+      if (error.response && error.response.data && error.response.data.message) {
+        messageApi.error(error.response.data.message || '建立使用者失敗');
+      } else {
+        messageApi.error('建立使用者失敗');
+      }
+    }
   };
 
   const columns = [
+    { title: 'ID', dataIndex: 'id', key: 'id' },
+    { title: 'Email', dataIndex: 'email', key: 'email' },
+    { title: 'Nickname', dataIndex: 'nickname', key: 'nickname', render: (nickname: string | null) => nickname || 'N/A' },
+    { title: 'Trading View Email', dataIndex: 'tradingViewEmail', key: 'tradingViewEmail' },
+    { title: 'Discord Id', dataIndex: 'discordId', key: 'discordId' },
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "Nickname",
-      dataIndex: "nickname",
-      key: "nickname",
-      render: (nickname: string | null) => nickname || "N/A",
-    },
-    {
-      title: "Trading View Email",
-      dataIndex: "tradingViewEmail",
-      key: "tradingViewEmail",
-    },
-    {
-      title: "Discord Id",
-      dataIndex: "discordId",
-      key: "discordId",
-    },
-    {
-      title: "",
-      dataIndex: "function",
-      key: "function",
-      width: "20%",
-      render: (_: boolean, record: {id: string}) => (
-        <Button
-          onClick={() => onEdit(record.id)}
-          size={"large"}
-          icon={<EditOutlined />}
-        >
+      title: '',
+      key: 'action',
+      render: (_: unknown, record: User) => (
+        <Button onClick={() => navigate(`/admin/users/${record.id}`)} icon={<EditOutlined />}>
           編輯
         </Button>
       ),
@@ -135,13 +116,16 @@ export default function UserList() {
         />
         <div className="flex w-full justify-between items-center mb-3">
           <Typography.Title level={2}>使用者列表</Typography.Title>
+          <Button type="primary" icon={<PlusOutlined />} onClick={handleAddUser}>
+            建立使用者
+          </Button>
         </div>
         <div
           style={{
             padding: 24,
             minHeight: 360,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
+            background: token.colorBgContainer,
+            borderRadius: token.borderRadiusLG,
           }}
           className="flex gap-5 flex-wrap justify-around"
         >
@@ -149,11 +133,55 @@ export default function UserList() {
             className="w-full"
             columns={columns}
             loading={loading}
-            dataSource={allData}
+            dataSource={users}
             pagination={tableParams.pagination}
+            onChange={handleTableChange}
           />
         </div>
       </div>
+      <Modal title="新使用者" open={isModalOpen} onOk={handleCreateUser} onCancel={handleCancel} centered
+        okText="建立" cancelText="取消"
+      >
+        <Form form={form} layout="vertical">
+          <Form.Item
+            name="email"
+            label="帳號 (Email)"
+            rules={[
+              { required: true, message: '帳號不能為空' },
+              { type: 'email', message: '帳號必須是Email格式' },
+            ]}
+          >
+            <Input placeholder="請輸入帳號" prefix={<EditOutlined />} />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="密碼"
+            rules={[
+              { required: true, message: '密碼不能為空' },
+              { min: 8, message: '密碼長度不能低於8位數' },
+            ]}
+          >
+            <Input.Password placeholder="請輸入密碼" prefix={<EditOutlined />} />
+          </Form.Item>
+          <Form.Item
+            name="nickname"
+            label="名稱 (Nickname)"
+            rules={[{ required: true, message: '名稱不能為空' }]}
+          >
+            <Input placeholder="請輸入名稱" prefix={<EditOutlined />} />
+          </Form.Item>
+          <Form.Item
+            name="role"
+            label="角色"
+            rules={[{ required: true, message: '請選擇角色' }]}
+          >
+            <Select placeholder="請選擇角色">
+              <Select.Option value={UserRole.Admin}>Admin</Select.Option>
+              <Select.Option value={UserRole.Member}>Member</Select.Option>
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 }

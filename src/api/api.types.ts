@@ -22,3 +22,15 @@ export type Pagination = {
   page: number;
   take: number;
 };
+
+export type CreateUserReq = {
+  email: string;
+  password: string;
+  nickname: string;
+  role: UserRole
+}
+
+export enum UserRole {
+  Admin = 'Admin',
+  Member = 'Member',
+}
