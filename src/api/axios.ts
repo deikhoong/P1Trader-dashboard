@@ -38,7 +38,7 @@ axiosInstance.interceptors.response.use(
           )
 
           if (response && response.data) {
-            const { access_token } = response.data;
+            const { access_token } = response.data.data;
             localStorage.setItem('at', access_token);
             return axiosInstance(originalRequest);
           }
