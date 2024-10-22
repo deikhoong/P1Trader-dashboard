@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
       const refreshToken = localStorage.getItem('rt'); 
       if (refreshToken) {
         try {
-          const response = await axios.post('/auth/refresh-token', {},{
+          const response = await axios.post(`${baseURL}/auth/refresh-token`, {},{
               headers: {
                 Authorization: `Bearer ${refreshToken}`,
               },
