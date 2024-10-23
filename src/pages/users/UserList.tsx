@@ -6,7 +6,7 @@ import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import type { TablePaginationConfig} from "antd";
 import {useNavigate} from "react-router-dom";
 import {CreateUser, GetUsers} from "../../api/users";
-import {Pagination, User, UserRole} from "../../api/api.types";
+import {Pagination, UserListItem, UserRole} from "../../api/api.types";
 
 
 interface TableParams {
@@ -16,7 +16,7 @@ interface TableParams {
 export default function UserList() {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserListItem[]>([]);
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
@@ -98,8 +98,8 @@ export default function UserList() {
     {
       title: '',
       key: 'action',
-      render: (_: unknown, record: User) => (
-        <Button onClick={() => navigate(`/admin/users/${record.id}`)} icon={<EditOutlined />}>
+      render: (_: unknown, record: UserListItem) => (
+        <Button onClick={() => navigate(`/users/${record.id}`)} icon={<EditOutlined />}>
           編輯
         </Button>
       ),

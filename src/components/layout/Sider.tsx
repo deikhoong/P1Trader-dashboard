@@ -1,6 +1,6 @@
 import React from "react";
 import {Layout, Menu} from "antd";
-import {CloudOutlined} from "@ant-design/icons";
+import { UserOutlined} from "@ant-design/icons";
 import type {MenuProps} from "antd";
 import {useNavigate} from "react-router-dom";
 
@@ -11,7 +11,7 @@ export default function Sider() {
   const menuItems: MenuProps["items"] = [
     {
       key: "users",
-      icon: React.createElement(CloudOutlined),
+      icon: React.createElement(UserOutlined),
       label: `使用者`,
     },
   ];
