@@ -1,8 +1,8 @@
-import { LoginForm, LoginResp } from "./api.types";
+import { LoginForm, LoginResponse } from "./api.types";
 import axiosInstance from "./axios";
 
-export const Login = async ( data:LoginForm ) => {
-  const response = await axiosInstance.post<LoginResp>('/auth/admin/login', {
+export const Login = async (data: LoginForm) => {
+  const response = await axiosInstance.post<LoginResponse>('/auth/admin/login', {
     ...data
   });
 
@@ -10,10 +10,10 @@ export const Login = async ( data:LoginForm ) => {
 };
 
 export const Logout = async () => {
-  try{
+  try {
     const response = await axiosInstance.post('/auth/logout')
     return response.data;
-  }catch(error){
+  } catch (error) {
     console.error(error);
     return null;
   }
