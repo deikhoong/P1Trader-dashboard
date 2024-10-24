@@ -45,7 +45,7 @@ export default function Header() {
                   className="bg-slate-300"
                   src="https://api.dicebear.com/9.x/notionists/svg?randomizeIds=true&flip=true"
                 />
-                <p className="text-sm">{user?.username}</p>
+                <p className="text-sm">{user?.nickname}</p>
                 <DownOutlined />
               </Space>
             </a>

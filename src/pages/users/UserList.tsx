@@ -136,6 +136,7 @@ export default function UserList() {
             dataSource={users}
             pagination={tableParams.pagination}
             onChange={handleTableChange}
+            rowKey={(record) => record.id ?? 'default-key'}
           />
         </div>
       </div>
