@@ -61,3 +61,25 @@ export enum UserRole {
   Admin = 'Admin',
   Member = 'Member',
 }
+
+export type EventListItem = {
+  id: string;
+  cover: {
+    id: string;
+    url: string;
+  };
+  title: string;
+  type: EventType;
+  location: EventLocation;
+  startDate: string;
+};
+
+export enum EventType {
+  WEBINAR = 'Webinar',
+  AMA = 'AMA Session',
+}
+
+export enum EventLocation {
+  ONLINE = 'Online',
+  TAIPEI = 'Taipei',
+}

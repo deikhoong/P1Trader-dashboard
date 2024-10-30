@@ -5,6 +5,8 @@ import MainPage from "./pages/MainPage";
 import ProtectedRoute from "./ProtectedRoutes";
 import UserList from "./pages/users/UserList";
 import UserDetail from "./pages/users/UserDetail";
+import EventDetail from "./pages/events/EventDetail";
+import EventList from "./pages/events/EventList";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const MainRoutes = () => (
@@ -30,6 +32,14 @@ export const router = createBrowserRouter([
       {
         path: "/users/:userId",
         element: <UserDetail />,
+      },
+      {
+        path: "/events",
+        element: <EventList />,
+      },   
+      {
+        path: "/events/:userId",
+        element: <EventDetail />,
       },
     ],
   },
