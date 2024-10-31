@@ -25,10 +25,10 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const response = await Login(values);
       if (response) {
-        const {user, accessToken, refreshToken} = response.data;
+        const {user, access_token, refresh_token} = response.data;
         localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("at", accessToken);
-        localStorage.setItem("rt", refreshToken);
+        localStorage.setItem("at", access_token);
+        localStorage.setItem("rt", refresh_token);
         set({user, isLogin: true, isLoading: false});
         return true;
       } else {
@@ -47,11 +47,11 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const response = await Logout();
       if (response) {
-        set({isLogin: false, isLoading: false});
         localStorage.removeItem("user");
         localStorage.removeItem("at");
         localStorage.removeItem("rt");
       }
+      set({isLogin: false, isLoading: false});
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : "登出失敗",

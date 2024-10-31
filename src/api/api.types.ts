@@ -8,8 +8,8 @@ export interface LoginForm {
 export type LoginResponse = {
   data: {
     user: UserListItem;
-    accessToken: string;
-    refreshToken: string;
+    access_token: string;
+    refresh_token: string;
   }
 }
 
@@ -73,6 +73,37 @@ export type EventListItem = {
   location: EventLocation;
   startDate: string;
 };
+
+export type EventInfo = {
+  cover: {
+    id: string;
+    url: string;
+  };
+  title: string;
+  type: EventType;
+  location: EventLocation;
+  startDate: string;
+  content: string;
+  speaker: string;
+  speakerDescription: string;
+  speakerAvatar: {
+    id: string;
+    url: string;
+  };
+  views: number;
+}
+
+export type CreateEventRequest = {
+  coverId: string;
+  title: string;
+  type: EventType;
+  location: EventLocation;
+  startDate: string;
+  content: string;
+  speaker: string;
+  speakerDescription: string;
+  speakerAvatarId: string;
+}
 
 export enum EventType {
   WEBINAR = 'Webinar',

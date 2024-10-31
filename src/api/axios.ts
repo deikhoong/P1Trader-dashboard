@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, isCancel} from 'axios';
+import axios, { AxiosInstance, isCancel } from 'axios';
 
 const baseURL = import.meta.env.VITE_API_URL;
 
@@ -24,17 +24,17 @@ axiosInstance.interceptors.request.use(
 // Response interceptor
 axiosInstance.interceptors.response.use(
   (response) => response,
-  async (error) =>  {
+  async (error) => {
     const originalRequest = error.config
-    if ( !isCancel(error) && error.response?.status === 401 &&  !originalRequest._retry ) {
-      const refreshToken = localStorage.getItem('rt'); 
+    if (!isCancel(error) && error.response?.status === 401 && !originalRequest._retry) {
+      const refreshToken = localStorage.getItem('rt');
       if (refreshToken) {
         try {
-          const response = await axios.post(`${baseURL}/auth/refresh-token`, {},{
-              headers: {
-                Authorization: `Bearer ${refreshToken}`,
-              },
+          const response = await axios.post(`${baseURL}/auth/refresh-token`, {}, {
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
             },
+          },
           )
 
           if (response && response.data) {
@@ -42,13 +42,17 @@ axiosInstance.interceptors.response.use(
             localStorage.setItem('at', access_token);
             return axiosInstance(originalRequest);
           }
-        } catch (err) {
+        } catch (err: any) {
+          if (err.response?.status === 401) {
+            localStorage.removeItem('at');
+            localStorage.removeItem('rt');
+          }
           console.error('Token refresh failed:', err);
         }
+      }
     }
-  }
-  return Promise.reject(error);
-});
+    return Promise.reject(error);
+  });
 
 export default axiosInstance;
 
