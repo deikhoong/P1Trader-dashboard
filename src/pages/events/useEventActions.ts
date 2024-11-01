@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { message } from "antd";
-import { CreateEventRequest, EventInfo } from "../../api/api.types"; // Adjust the path as needed
-import { CreateEvent, DeleteEvents, GetEvent } from "../../api/events";
+import { EventInfo, EventRequest } from "../../api/api.types"; // Adjust the path as needed
+import { CreateEvent, DeleteEvents, GetEvent, UpdateEvent } from "../../api/events";
 
 
 export function useEventActions(eventId?: string) {
@@ -13,8 +13,8 @@ export function useEventActions(eventId?: string) {
     if (!eventId) return;
     setLoading(true);
     try {
-      const data = await GetEvent(eventId);
-      setEvent(data);
+      const response = await GetEvent(eventId);
+      setEvent(response.data);
     } catch (error) {
       message.error("Failed to fetch event details.");
     } finally {
@@ -23,7 +23,7 @@ export function useEventActions(eventId?: string) {
   }, [eventId]);
 
   // Create a new event
-  const createEvent = useCallback(async (eventData: CreateEventRequest) => {
+  const createEvent = useCallback(async (eventData: EventRequest) => {
     setLoading(true);
     try {
       const response = await CreateEvent(eventData);
@@ -35,33 +35,34 @@ export function useEventActions(eventId?: string) {
     }
   }, []);
 
-  // // Update an event
-  // const updateEvent = useCallback(async (updatedData: EventInfo) => {
-  //   if (!eventId) return;
-  //   setLoading(true);
-  //   try {
-  //     await updateEventAPI(eventId, updatedData);
-  //     message.success("Event updated successfully.");
-  //   } catch (error) {
-  //     message.error("Failed to update event.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, [eventId]);
-
-  // Delete an event
-  const deleteEvent = useCallback(async () => {
+  // Update an event
+  const updateEvent = useCallback(async (id: string, updatedData: EventRequest) => {
     if (!eventId) return;
     setLoading(true);
     try {
-      await DeleteEvents(eventId);
-      message.success("Event deleted successfully.");
+      await UpdateEvent(id, updatedData);
+      message.success("Event updated successfully.");
+      return true;
     } catch (error) {
-      message.error("Failed to delete event.");
+      message.error("Failed to update event.");
+      return false;
     } finally {
       setLoading(false);
     }
   }, [eventId]);
 
-  return { event, loading, fetchEvent, createEvent, deleteEvent };
+  const deleteEvent = useCallback(async () => {
+    if (!eventId) return;
+    setLoading(true);
+    try {
+      await DeleteEvents(eventId);
+      return true;
+    } catch (error) {
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }, [eventId]);
+
+  return { event, loading, fetchEvent, createEvent, deleteEvent, updateEvent };
 }

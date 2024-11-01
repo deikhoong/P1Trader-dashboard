@@ -21,16 +21,12 @@ import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css"; // Import styles
 import {useEventActions} from "./useEventActions";
 
-import {
-  CreateEventRequest,
-  EventLocation,
-  EventType,
-} from "../../api/api.types";
+import {EventRequest, EventLocation, EventType} from "../../api/api.types";
 import {UploadFile} from "../../api/common";
 
 export default function EventCreate() {
   const navigate = useNavigate();
-  const [form] = Form.useForm<CreateEventRequest>();
+  const [form] = Form.useForm<EventRequest>();
   const {loading, createEvent} = useEventActions();
   const [description, setDescription] = useState<string>("");
   const {
@@ -48,7 +44,7 @@ export default function EventCreate() {
     }
   };
 
-  const handleCreate: FormProps<CreateEventRequest>["onFinish"] =
+  const handleCreate: FormProps<EventRequest>["onFinish"] =
     useCallback(async () => {
       try {
         const formValues = form.getFieldsValue(true);

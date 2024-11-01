@@ -1,4 +1,4 @@
-import { CreateEventRequest, Pagination } from "./api.types";
+import { EventRequest, Pagination } from "./api.types";
 import axiosInstance from "./axios";
 
 export const GetEvents = async (pagination: Pagination) => {
@@ -11,8 +11,13 @@ export const GetEvent = async (id: string) => {
   return response.data;
 }
 
-export const CreateEvent = async (data: CreateEventRequest) => {
+export const CreateEvent = async (data: EventRequest) => {
   const response = await axiosInstance.post('/admin/events', data);
+  return response.data;
+}
+
+export const UpdateEvent = async (id: string, data: EventRequest) => {
+  const response = await axiosInstance.patch(`/admin/events/${id}`, data);
   return response.data;
 }
 

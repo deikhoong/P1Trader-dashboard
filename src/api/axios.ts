@@ -46,6 +46,7 @@ axiosInstance.interceptors.response.use(
           if (err.response?.status === 401) {
             localStorage.removeItem('at');
             localStorage.removeItem('rt');
+            window.location.href = '/login';
           }
           console.error('Token refresh failed:', err);
         }

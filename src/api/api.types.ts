@@ -93,7 +93,7 @@ export type EventInfo = {
   views: number;
 }
 
-export type CreateEventRequest = {
+export type EventRequest = {
   coverId: string;
   title: string;
   type: EventType;
