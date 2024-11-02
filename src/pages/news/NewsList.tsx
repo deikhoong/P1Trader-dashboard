@@ -6,8 +6,8 @@ import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import type {TablePaginationConfig} from "antd";
 import {useNavigate} from "react-router-dom";
 
-import {EventListItem, Pagination} from "../../api/api.types";
-import {GetEvents} from "../../api/events";
+import {NewsListItem, Pagination} from "../../api/api.types";
+import {GetNews} from "../../api/news";
 
 interface TableParams {
   pagination?: TablePaginationConfig;
@@ -15,7 +15,7 @@ interface TableParams {
 
 export default function NewsList() {
   const [loading, setLoading] = useState(false);
-  const [events, setEvents] = useState<EventListItem[]>([]);
+  const [news, setNews] = useState<NewsListItem[]>([]);
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
@@ -27,7 +27,7 @@ export default function NewsList() {
   const navigate = useNavigate();
   const {token} = theme.useToken();
 
-  const fetchEvents = useCallback(
+  const fetchNews = useCallback(
     async (
       params: Pagination = {
         page: 1,
@@ -40,9 +40,9 @@ export default function NewsList() {
           page = tableParams.pagination?.current ?? 1,
           take = tableParams.pagination?.pageSize ?? 10,
         } = params;
-        const response = await GetEvents({page, take});
+        const response = await GetNews({page, take});
 
-        setEvents(response.data.data);
+        setNews(response.data.data);
         setTableParams((prev) => ({
           ...prev,
           pagination: {
@@ -63,11 +63,11 @@ export default function NewsList() {
   );
 
   useEffect(() => {
-    fetchEvents();
+    fetchNews();
   }, []);
 
   const handleTableChange = (pagination: TableParams["pagination"]) => {
-    fetchEvents({
+    fetchNews({
       page: pagination?.current ?? 1,
       take: pagination?.pageSize ?? 10,
     });
@@ -87,14 +87,12 @@ export default function NewsList() {
     },
     {title: "標題", dataIndex: "title", key: "title"},
     {title: "類型", dataIndex: "type", key: "type"},
-    {title: "地點", dataIndex: "location", key: "location"},
-    {title: "開始時間", dataIndex: "startDate", key: "startDate"},
     {
       title: "",
       key: "action",
-      render: (_: unknown, record: EventListItem) => (
+      render: (_: unknown, record: NewsListItem) => (
         <Button
-          onClick={() => navigate(`/events/${record.id}`)}
+          onClick={() => navigate(`/news/${record.id}`)}
           icon={<EditOutlined />}
         >
           編輯
@@ -109,16 +107,16 @@ export default function NewsList() {
       <div className="my-6 mx-4">
         <Breadcrumb
           className="my-4"
-          items={[{title: "事件"}, {title: "列表"}]}
+          items={[{title: "新聞"}, {title: "列表"}]}
         />
         <div className="flex w-full justify-between items-center mb-3">
-          <Typography.Title level={2}>Event列表</Typography.Title>
+          <Typography.Title level={2}>News 列表</Typography.Title>
           <Button
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => navigate(`/events/create`)}
           >
-            建立Event
+            建立 News
           </Button>
         </div>
         <div
@@ -134,7 +132,7 @@ export default function NewsList() {
             className="w-full"
             columns={columns}
             loading={loading}
-            dataSource={events}
+            dataSource={news}
             pagination={tableParams.pagination}
             onChange={handleTableChange}
             rowKey={(record) => record.id ?? "default-key"}

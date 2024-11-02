@@ -130,6 +130,15 @@ export enum EventLocation {
   TAIPEI = 'Taipei',
 }
 
+export type NewsListItem = {
+  id: string;
+  cover: {
+    id: string;
+    url: string;
+  };
+  title: string;
+  type: NewsType;
+};
 
 export type NewsRequest = {
   coverId: string;
