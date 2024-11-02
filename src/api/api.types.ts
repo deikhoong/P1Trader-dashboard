@@ -91,6 +91,15 @@ export type EventInfo = {
     url: string;
   };
   views: number;
+  recapsTitle: string;
+  recapsDescription: string;
+  recapsAttendance: number;
+  recapsDuration: number;
+  recapsCover: {
+    id: string;
+    url: string;
+  };
+  recapsLink: string;
 }
 
 export type EventRequest = {
@@ -103,6 +112,12 @@ export type EventRequest = {
   speaker: string;
   speakerDescription: string;
   speakerAvatarId: string;
+  recapsTitle: string;
+  recapsDescription: string;
+  recapsAttendance: number;
+  recapsDuration: number;
+  recapsCoverId: string;
+  recapsLink: string;
 }
 
 export enum EventType {
@@ -113,4 +128,19 @@ export enum EventType {
 export enum EventLocation {
   ONLINE = 'Online',
   TAIPEI = 'Taipei',
+}
+
+
+export type NewsRequest = {
+  coverId: string;
+  title: string;
+  type: NewsType;
+  content: string;
+}
+
+export enum NewsType {
+  TRADING = 'Trading',
+  MARKET_TRENDS = 'Market_Trends',
+  ANALYSIS = 'Analysis',
+  CRYPTO = 'Crypto',
 }

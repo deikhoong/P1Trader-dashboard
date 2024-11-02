@@ -8,6 +8,9 @@ import UserDetail from "./pages/users/UserDetail";
 import EventDetail from "./pages/events/EventDetail";
 import EventList from "./pages/events/EventList";
 import EventCreate from "./pages/events/EventCreate";
+import NewsList from "./pages/news/NewsList";
+import NewsCreate from "./pages/news/NewsCreate";
+import NewsDetail from "./pages/news/NewsDetail";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const MainRoutes = () => (
@@ -26,25 +29,32 @@ export const router = createBrowserRouter([
     element: <MainRoutes />,
     errorElement: <NotFound />,
     children: [
+      // User routes
       {
-        path: "/users",
-        element: <UserList />,
+        path: "users",
+        children: [
+          {index: true, element: <UserList />},
+          {path: ":userId", element: <UserDetail />},
+        ],
       },
+      // Event routes
       {
-        path: "/users/:userId",
-        element: <UserDetail />,
+        path: "events",
+        children: [
+          {index: true, element: <EventList />},
+          {path: "create", element: <EventCreate />},
+          {path: ":eventId", element: <EventDetail />},
+        ],
       },
+
+      // Event routes
       {
-        path: "/events",
-        element: <EventList />,
-      },
-      {
-        path: "/events/create",
-        element: <EventCreate />,
-      },
-      {
-        path: "/events/:eventId",
-        element: <EventDetail />,
+        path: "news",
+        children: [
+          {index: true, element: <NewsList />},
+          {path: "create", element: <NewsCreate />},
+          {path: ":newsId", element: <NewsDetail />},
+        ],
       },
     ],
   },

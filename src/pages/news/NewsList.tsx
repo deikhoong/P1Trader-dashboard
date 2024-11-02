@@ -13,7 +13,7 @@ interface TableParams {
   pagination?: TablePaginationConfig;
 }
 
-export default function EventList() {
+export default function NewsList() {
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState<EventListItem[]>([]);
   const [tableParams, setTableParams] = useState<TableParams>({

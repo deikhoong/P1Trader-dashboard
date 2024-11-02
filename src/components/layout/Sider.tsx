@@ -1,6 +1,6 @@
 import React from "react";
 import {Layout, Menu} from "antd";
-import { CalendarOutlined, UserOutlined} from "@ant-design/icons";
+import {CalendarOutlined, ReadOutlined, UserOutlined} from "@ant-design/icons";
 import type {MenuProps} from "antd";
 import {useNavigate} from "react-router-dom";
 
@@ -18,6 +18,11 @@ export default function Sider() {
       key: "events",
       icon: React.createElement(CalendarOutlined),
       label: `Event`,
+    },
+    {
+      key: "news",
+      icon: React.createElement(ReadOutlined),
+      label: `News`,
     },
   ];
 

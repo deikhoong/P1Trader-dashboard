@@ -29,7 +29,7 @@ import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import dayjs from "dayjs";
 
-export default function EventDetail() {
+export default function NewsDetail() {
   const {eventId} = useParams();
   const navigate = useNavigate();
   const {loading, deleteEvent, updateEvent, fetchEvent, event} =
@@ -52,25 +52,13 @@ export default function EventDetail() {
 
   useEffect(() => {
     if (event) {
-      const hasRecapInfo =
-        event.recapsTitle ||
-        event.recapsAttendance ||
-        event.recapsDuration ||
-        event.recapsDescription ||
-        event.recapsLink ||
-        event.recapsCover;
-
       form.setFieldsValue({
         ...event,
         coverId: event.cover?.id,
         speakerAvatarId: event.speakerAvatar?.id,
-        recapsCoverId: event.recapsCover?.id,
         startDate: dayjs(event.startDate),
-        has_recap: !!hasRecapInfo,
       });
-
       setDescription(event.content);
-      setShowRecap(!!hasRecapInfo);
     }
   }, [event, form]);
 
@@ -154,28 +142,6 @@ export default function EventDetail() {
     }),
     []
   );
-
-  const getRecapRules = (fieldName: string) => [
-    {
-      required: showRecap,
-      message: `請輸入 ${fieldName}`,
-    },
-  ];
-
-  const handleRecapCheckbox = (e: any) => {
-    setShowRecap(e.target.checked);
-
-    if (!e.target.checked) {
-      form.setFields([
-        {name: "recapsTitle", errors: []},
-        {name: "recapsCoverId", errors: []},
-        {name: "recapsAttendance", errors: []},
-        {name: "recapsDuration", errors: []},
-        {name: "recapsDescription", errors: []},
-        {name: "recapsLink", errors: []},
-      ]);
-    }
-  };
 
   return (
     <div className="my-6 mx-4">
@@ -340,54 +306,25 @@ export default function EventDetail() {
           </Form.Item>
 
           <Form.Item name="has_recap" valuePropName="checked">
-            <Checkbox onChange={handleRecapCheckbox}>Last Event Recap</Checkbox>
+            <Checkbox onChange={(e) => setShowRecap(e.target.checked)}>
+              Last Event Recap
+            </Checkbox>
           </Form.Item>
 
           {showRecap && (
             <>
               <Form.Item
-                name="recapsTitle"
+                name="last_event_recaps_title"
                 label="Recap Title"
-                rules={getRecapRules("recap 標題")}
-                validateTrigger={["onChange", "onBlur"]}
+                rules={[{required: true, message: "Please enter recap title"}]}
               >
                 <Input placeholder="Enter recap title" />
               </Form.Item>
 
               <Form.Item
-                label="Recap Cover Image"
-                name="recapsCoverId"
-                rules={getRecapRules("recap 封面圖")}
-                validateTrigger={["onChange", "onBlur"]}
-              >
-                <Input disabled />
-              </Form.Item>
-
-              <Form.Item rules={[{required: showRecap}]}>
-                <Upload
-                  customRequest={(options) =>
-                    handleImageUpload({...options, field: "recapsCoverId"})
-                  }
-                  listType="picture"
-                  accept="image/*"
-                  maxCount={1}
-                  onChange={(info: any) => {
-                    if (info.file.status === "removed") {
-                      form.setFieldValue("recapsCoverId", "");
-                    }
-                  }}
-                >
-                  <Button icon={<UploadOutlined />}>
-                    Upload Recap Cover Image
-                  </Button>
-                </Upload>
-              </Form.Item>
-
-              <Form.Item
-                name="recapsAttendance"
+                name="last_event_recaps_attendence"
                 label="Attendance"
-                rules={getRecapRules("參與人數")}
-                validateTrigger={["onChange", "onBlur"]}
+                rules={[{required: true, message: "Please enter attendance"}]}
               >
                 <InputNumber
                   min={0}
@@ -397,23 +334,23 @@ export default function EventDetail() {
               </Form.Item>
 
               <Form.Item
-                name="recapsDuration"
-                label="Duration (hour)"
-                rules={getRecapRules("時間")}
-                validateTrigger={["onChange", "onBlur"]}
+                name="last_event_recaps_duration"
+                label="Duration (minutes)"
+                rules={[{required: true, message: "Please enter duration"}]}
               >
                 <InputNumber
                   min={0}
-                  placeholder="Enter duration in hours"
+                  placeholder="Enter duration in minutes"
                   className="w-full"
                 />
               </Form.Item>
 
               <Form.Item
-                name="recapsDescription"
+                name="last_event_recaps_description"
                 label="Recap Description"
-                rules={getRecapRules("recap 描述")}
-                validateTrigger={["onChange", "onBlur"]}
+                rules={[
+                  {required: true, message: "Please enter recap description"},
+                ]}
               >
                 <Input.TextArea
                   rows={4}
@@ -422,18 +359,47 @@ export default function EventDetail() {
               </Form.Item>
 
               <Form.Item
-                name="recapsLink"
+                name="last_event_recaps_link"
                 label="Recap Link"
                 rules={[
-                  ...getRecapRules("recap 網址"),
-                  {
-                    type: "url",
-                    message: "請輸入正確的網址",
-                  },
+                  {required: true, message: "Please enter recap link"},
+                  {type: "url", message: "Please enter a valid URL"},
                 ]}
-                validateTrigger={["onChange", "onBlur"]}
               >
                 <Input placeholder="Enter recap link" />
+              </Form.Item>
+
+              <Form.Item
+                label="Recap Cover Image"
+                name="last_event_recaps_cover_img_id"
+                rules={[
+                  {required: true, message: "Please upload recap cover image"},
+                ]}
+              >
+                <Input disabled />
+              </Form.Item>
+
+              <Form.Item rules={[{required: true}]}>
+                <Upload
+                  customRequest={(options) =>
+                    handleImageUpload({
+                      ...options,
+                      field: "last_event_recaps_cover_img_id",
+                    })
+                  }
+                  listType="picture"
+                  accept="image/*"
+                  maxCount={1}
+                  onChange={(info: any) => {
+                    if (info.file.status === "removed") {
+                      form.setFieldValue("last_event_recaps_cover_img_id", "");
+                    }
+                  }}
+                >
+                  <Button icon={<UploadOutlined />}>
+                    Upload Recap Cover Image
+                  </Button>
+                </Upload>
               </Form.Item>
             </>
           )}

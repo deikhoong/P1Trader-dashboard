@@ -9,8 +9,6 @@ import {
   Upload,
   message,
   FormProps,
-  Checkbox,
-  InputNumber,
 } from "antd";
 import {useCallback, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -26,12 +24,11 @@ import {useEventActions} from "./useEventActions";
 import {EventRequest, EventLocation, EventType} from "../../api/api.types";
 import {UploadFile} from "../../api/common";
 
-export default function EventCreate() {
+export default function NewsCreate() {
   const navigate = useNavigate();
   const [form] = Form.useForm<EventRequest>();
   const {loading, createEvent} = useEventActions();
   const [description, setDescription] = useState<string>("");
-  const [showRecap, setShowRecap] = useState(false);
   const {
     token: {colorBgContainer, borderRadiusLG},
   } = theme.useToken();
@@ -111,28 +108,6 @@ export default function EventCreate() {
     }),
     []
   );
-
-  const getRecapRules = (fieldName: string) => [
-    {
-      required: showRecap,
-      message: `請輸入 ${fieldName}`,
-    },
-  ];
-
-  const handleRecapCheckbox = (e: any) => {
-    setShowRecap(e.target.checked);
-
-    if (!e.target.checked) {
-      form.setFields([
-        {name: "recapsTitle", errors: []},
-        {name: "recapsCoverId", errors: []},
-        {name: "recapsAttendance", errors: []},
-        {name: "recapsDuration", errors: []},
-        {name: "recapsDescription", errors: []},
-        {name: "recapsLink", errors: []},
-      ]);
-    }
-  };
 
   return (
     <div className="my-6 mx-4">
@@ -282,105 +257,6 @@ export default function EventCreate() {
               placeholder="請輸入描述"
             />
           </Form.Item>
-          <Form.Item name="has_recap" valuePropName="checked">
-            <Checkbox onChange={handleRecapCheckbox}>Last Event Recap</Checkbox>
-          </Form.Item>
-
-          {showRecap && (
-            <>
-              <Form.Item
-                name="recapsTitle"
-                label="Recap Title"
-                rules={getRecapRules("recap 標題")}
-                validateTrigger={["onChange", "onBlur"]}
-              >
-                <Input placeholder="Enter recap title" />
-              </Form.Item>
-
-              <Form.Item
-                label="Recap Cover Image"
-                name="recapsCoverId"
-                rules={getRecapRules("recap 封面圖")}
-                validateTrigger={["onChange", "onBlur"]}
-              >
-                <Input disabled />
-              </Form.Item>
-
-              <Form.Item rules={[{required: showRecap}]}>
-                <Upload
-                  customRequest={(options) =>
-                    handleImageUpload({...options, field: "recapsCoverId"})
-                  }
-                  listType="picture"
-                  accept="image/*"
-                  maxCount={1}
-                  onChange={(info: any) => {
-                    if (info.file.status === "removed") {
-                      form.setFieldValue("recapsCoverId", "");
-                    }
-                  }}
-                >
-                  <Button icon={<UploadOutlined />}>
-                    Upload Recap Cover Image
-                  </Button>
-                </Upload>
-              </Form.Item>
-
-              <Form.Item
-                name="recapsAttendance"
-                label="Attendance"
-                rules={getRecapRules("參與人數")}
-                validateTrigger={["onChange", "onBlur"]}
-              >
-                <InputNumber
-                  min={0}
-                  placeholder="Enter attendance"
-                  className="w-full"
-                />
-              </Form.Item>
-
-              <Form.Item
-                name="recapsDuration"
-                label="Duration (hour)"
-                rules={getRecapRules("時間")}
-                validateTrigger={["onChange", "onBlur"]}
-              >
-                <InputNumber
-                  min={0}
-                  placeholder="Enter duration in hours"
-                  className="w-full"
-                />
-              </Form.Item>
-
-              <Form.Item
-                name="recapsDescription"
-                label="Recap Description"
-                rules={getRecapRules("recap 描述")}
-                validateTrigger={["onChange", "onBlur"]}
-              >
-                <Input.TextArea
-                  rows={4}
-                  placeholder="Enter recap description"
-                />
-              </Form.Item>
-
-              <Form.Item
-                name="recapsLink"
-                label="Recap Link"
-                rules={[
-                  ...getRecapRules("recap 網址"),
-                  {
-                    type: "url",
-                    message: "請輸入正確的網址",
-                  },
-                ]}
-                validateTrigger={["onChange", "onBlur"]}
-              >
-                <Input placeholder="Enter recap link" />
-              </Form.Item>
-            </>
-          )}
-
           <Form.Item>
             <Button
               type="primary"
