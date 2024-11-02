@@ -30,10 +30,10 @@ export function useUserActions(userId: string | undefined) {
     try {
       await UpdateUser(userId, updatedData);
       setUser(prevUser => ({ ...prevUser, ...updatedData } as UserInfo));
-      message.success('更新成功');
+      message.success('Update成功');
     } catch (err) {
-      setError('更新失敗，請稍後再試');
-      message.error('更新失敗，請稍後再試');
+      setError('Update失敗，請稍後再試');
+      message.error('Update失敗，請稍後再試');
     } finally {
       setLoading(false);
     }

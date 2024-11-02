@@ -1,19 +1,23 @@
-import { Button, Form, Input, Popconfirm, theme, Typography } from "antd";
-import { useCallback, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {Button, Form, Input, Popconfirm, theme, Typography} from "antd";
+import {useCallback, useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
-import { ArrowLeftOutlined, DeleteOutlined, SaveOutlined } from "@ant-design/icons";
-import { UserInfo } from "../../api/api.types";
-import { useUserActions } from "./useUserActions";
+import {
+  ArrowLeftOutlined,
+  DeleteOutlined,
+  SaveOutlined,
+} from "@ant-design/icons";
+import {UserInfo} from "../../api/api.types";
+import {useUserActions} from "./useUserActions";
 
-
-export default function UserDetail(){
-  const { userId } = useParams();
+export default function UserDetail() {
+  const {userId} = useParams();
   const navigate = useNavigate();
   const [form] = Form.useForm<UserInfo>();
-  const { user, loading, fetchUser, updateUser, deleteUser } = useUserActions(userId);
+  const {user, loading, fetchUser, updateUser, deleteUser} =
+    useUserActions(userId);
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: {colorBgContainer, borderRadiusLG},
   } = theme.useToken();
 
   useEffect(() => {
@@ -26,14 +30,13 @@ export default function UserDetail(){
 
   useEffect(() => {
     if (user) {
-     form.setFieldsValue(user);
+      form.setFieldsValue(user);
     }
   }, [user, form]);
 
-
   const handleDelete = useCallback(async () => {
     await deleteUser();
-    navigate('/users');
+    navigate("/users");
   }, [deleteUser, navigate]);
 
   const handleUpdate = useCallback(async () => {
@@ -45,10 +48,14 @@ export default function UserDetail(){
   return (
     <div className="my-6 mx-4">
       <div className="flex w-full justify-between items-center mb-3 box-border">
-        <Typography.Title level={2} className="hover:cursor-pointer hover:text-gray-700"
-          onClick={() => { window.history.back();}}
+        <Typography.Title
+          level={2}
+          className="hover:cursor-pointer hover:text-gray-700"
+          onClick={() => {
+            window.history.back();
+          }}
         >
-          <ArrowLeftOutlined /> {user ? user.email: ''}
+          <ArrowLeftOutlined /> {user ? user.email : ""}
         </Typography.Title>
         <div className="flex gap-3">
           <Popconfirm
@@ -58,7 +65,7 @@ export default function UserDetail(){
             okText="刪除"
             cancelText="取消"
           >
-            <Button type="dashed" icon={<DeleteOutlined />} danger >
+            <Button type="dashed" icon={<DeleteOutlined />} danger>
               刪除
             </Button>
           </Popconfirm>
@@ -73,44 +80,49 @@ export default function UserDetail(){
         className="flex justify-between p-10"
       >
         <Form
-            form={form}
-            name="detail"
-            labelCol={{ span: 36 }}
-            wrapperCol={{ span: 36 }}
-            style={{ maxWidth: 1200, width: '50%' }}
-            layout="vertical"
-            initialValues={user || undefined}
-            onFinish={handleUpdate}
-            autoComplete="off"
-          >
+          form={form}
+          name="detail"
+          labelCol={{span: 36}}
+          wrapperCol={{span: 36}}
+          style={{maxWidth: 1200, width: "50%"}}
+          layout="vertical"
+          initialValues={user || undefined}
+          onFinish={handleUpdate}
+          autoComplete="off"
+        >
           <Form.Item name="email" label="帳號">
-            <Input disabled/>
+            <Input disabled />
           </Form.Item>
           <Form.Item name="nickname" label="暱稱">
-            <Input placeholder="請輸入暱稱"/>
+            <Input placeholder="Please enter  暱稱" />
           </Form.Item>
-          <Form.Item  name="tradingViewEmail" label="Trading View Email" rules={[{ type: 'email', message: '請輸入有效的電子郵件地址' }]}>
-            <Input placeholder="請輸入Trading View Email"/>
+          <Form.Item
+            name="tradingViewEmail"
+            label="Trading View Email"
+            rules={[
+              {type: "email", message: "Please enter  有效的電子郵件地址"},
+            ]}
+          >
+            <Input placeholder="Please enter  Trading View Email" />
           </Form.Item>
           <Form.Item name="discordId" label="Discord ID">
-          <Input placeholder="請輸入iscord ID"/>
+            <Input placeholder="Please enter  iscord ID" />
           </Form.Item>
-          <Form.Item name="phone" >
-          
-          </Form.Item>
+          <Form.Item name="phone"></Form.Item>
           <Form.Item>
-            <Button type="primary" size="large" block htmlType="submit" icon={<SaveOutlined />} loading={loading}>
+            <Button
+              type="primary"
+              size="large"
+              block
+              htmlType="submit"
+              icon={<SaveOutlined />}
+              loading={loading}
+            >
               儲存
             </Button>
           </Form.Item>
         </Form>
       </div>
     </div>
-  )
-  
-  
+  );
 }
-
-
-
-

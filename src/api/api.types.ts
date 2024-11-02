@@ -140,6 +140,16 @@ export type NewsListItem = {
   type: NewsType;
 };
 
+export type NewsInfo = {
+  cover: {
+    id: string;
+    url: string;
+  };
+  title: string;
+  type: NewsType;
+  content: string;
+}
+
 export type NewsRequest = {
   coverId: string;
   title: string;
@@ -149,7 +159,7 @@ export type NewsRequest = {
 
 export enum NewsType {
   TRADING = 'Trading',
-  MARKET_TRENDS = 'Market_Trends',
+  MARKET_TRENDS = 'MarketTrends',
   ANALYSIS = 'Analysis',
   CRYPTO = 'Crypto',
 }

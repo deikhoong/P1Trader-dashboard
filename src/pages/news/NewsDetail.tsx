@@ -10,83 +10,74 @@ import {
 import {useNavigate, useParams} from "react-router-dom";
 import {
   Button,
-  Checkbox,
-  DatePicker,
   Form,
   FormProps,
   Input,
-  InputNumber,
   Popconfirm,
   Select,
   theme,
   Typography,
   Upload,
 } from "antd";
-import {useEventActions} from "./useEventActions";
+
 import {UploadFile} from "../../api/common";
-import {EventLocation, EventRequest, EventType} from "../../api/api.types";
+import {NewsRequest, NewsType} from "../../api/api.types";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import dayjs from "dayjs";
+
+import {useNewsActions} from "./useNewsActions";
 
 export default function NewsDetail() {
-  const {eventId} = useParams();
+  const {newsId} = useParams();
   const navigate = useNavigate();
-  const {loading, deleteEvent, updateEvent, fetchEvent, event} =
-    useEventActions(eventId);
+  const {loading, deleteNews, updateNews, fetchNews, news} =
+    useNewsActions(newsId);
+  const [content, setContent] = useState<string>("");
   const [form] = Form.useForm();
-  const [description, setDescription] = useState<string>("");
-  const [showRecap, setShowRecap] = useState(false);
 
   const {
     token: {colorBgContainer, borderRadiusLG},
   } = theme.useToken();
 
   useEffect(() => {
-    if (!eventId) {
-      navigate("/events");
+    if (!newsId) {
+      navigate("/news");
     } else {
-      fetchEvent();
+      fetchNews();
     }
-  }, [eventId, navigate, fetchEvent]);
+  }, [newsId, navigate, fetchNews]);
 
   useEffect(() => {
-    if (event) {
+    if (news) {
       form.setFieldsValue({
-        ...event,
-        coverId: event.cover?.id,
-        speakerAvatarId: event.speakerAvatar?.id,
-        startDate: dayjs(event.startDate),
+        ...news,
+        coverId: news.cover?.id,
       });
-      setDescription(event.content);
     }
-  }, [event, form]);
+  }, [news, form]);
 
   const handleDelete = async () => {
-    const res = await deleteEvent();
+    const res = await deleteNews();
     if (res) {
-      navigate("/events");
+      navigate("/news");
     }
   };
 
-  const handleUpdate: FormProps<EventRequest>["onFinish"] =
+  const handleUpdate: FormProps<NewsRequest>["onFinish"] =
     useCallback(async () => {
       try {
         const formValues = form.getFieldsValue(true);
-        const eventData = {
-          ...formValues,
-          content: description,
-        };
-        if (eventId) {
-          await updateEvent(eventId, eventData);
-          navigate("/events");
+
+        if (newsId) {
+          await updateNews(newsId, formValues);
+          navigate("/news");
         } else {
-          throw new Error("Event ID is undefined");
+          throw new Error("News ID is undefined");
         }
       } catch (error) {
-        console.error("Event update failed:", error);
+        console.error("News update failed:", error);
       }
-    }, [form, description, updateEvent, navigate]);
+    }, [form, updateNews, navigate]);
 
   const handleImageUpload = async ({onSuccess, onError, file, field}: any) => {
     try {
@@ -147,7 +138,7 @@ export default function NewsDetail() {
     <div className="my-6 mx-4">
       <Breadcrumb
         className="my-4"
-        items={[{title: "Event"}, {title: "Event 列表"}]}
+        items={[{title: "News"}, {title: "News List"}]}
       />
       <div className="flex w-full justify-between items-center mb-3 box-border">
         <Typography.Title
@@ -155,18 +146,18 @@ export default function NewsDetail() {
           className="hover:cursor-pointer hover:text-gray-700"
           onClick={() => window.history.back()}
         >
-          <ArrowLeftOutlined /> {event ? event.title : ""}
+          <ArrowLeftOutlined /> {news ? news.title : ""}
         </Typography.Title>
         <div className="flex gap-3">
           <Popconfirm
-            title="注意！"
-            description="請問要刪除此產品嗎？"
+            title="Warning!"
+            description="Are you sure you want to delete?"
             onConfirm={handleDelete}
-            okText="刪除"
-            cancelText="取消"
+            okText="Delete"
+            cancelText="Cancel"
           >
             <Button type="dashed" icon={<DeleteOutlined />} danger>
-              刪除
+              Delete
             </Button>
           </Popconfirm>
         </div>
@@ -181,26 +172,30 @@ export default function NewsDetail() {
       >
         <Form
           form={form}
-          name="eventUpdate"
+          name="newsUpdate"
           layout="vertical"
           onFinish={handleUpdate}
           autoComplete="off"
-          className="w-full max-w-4xl"
+          style={{maxWidth: 1200, width: "100%"}}
         >
           <Form.Item
             name="title"
-            label="標題"
-            rules={[{required: true, message: "請輸入標題"}]}
+            label="Title"
+            rules={[{required: true, message: "Please enter Title"}]}
           >
-            <Input placeholder="請輸入標題" />
+            <Input placeholder="Please enter  Title" />
           </Form.Item>
-
           <Form.Item
-            label="封面圖"
+            label="Cover Image"
             name="coverId"
-            rules={[{required: true, message: "請上傳封面圖"}]}
+            rules={[{required: true, message: "Upload Cover Image"}]}
           >
-            <Input disabled />
+            <Input
+              disabled
+              onChange={(e) => {
+                console.log(e);
+              }}
+            />
           </Form.Item>
           <Form.Item rules={[{required: true}]}>
             <Upload
@@ -216,193 +211,35 @@ export default function NewsDetail() {
                 }
               }}
             >
-              <Button icon={<UploadOutlined />}>更新封面圖</Button>
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
             </Upload>
           </Form.Item>
-
           <Form.Item
             name="type"
-            label="類型"
-            rules={[{required: true, message: "請選擇類型"}]}
+            label="Type"
+            rules={[{required: true, message: "Please select Type"}]}
           >
-            <Select placeholder="請選擇類型">
-              <Select.Option value={EventType.WEBINAR}>Webinar</Select.Option>
-              <Select.Option value={EventType.AMA}>AMA Session</Select.Option>
+            <Select placeholder="Please select Type">
+              {Object.entries(NewsType).map(([key, value]) => (
+                <Select.Option key={key} value={value}>
+                  {value}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
 
           <Form.Item
-            name="location"
-            label="地點"
-            rules={[{required: true, message: "請選擇地點"}]}
-          >
-            <Select placeholder="請選擇地點">
-              <Select.Option value={EventLocation.ONLINE}>Online</Select.Option>
-              <Select.Option value={EventLocation.TAIPEI}>Taipei</Select.Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="startDate"
-            label="開始時間"
-            rules={[{required: true, message: "請選擇開始時間"}]}
-          >
-            <DatePicker
-              showTime={{format: "HH:mm"}}
-              format="YYYY-MM-DD HH:mm"
-              className="w-full"
-              placeholder="請選擇開始時間"
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="speaker"
-            label="演講者"
-            rules={[{required: true, message: "請輸入演講者姓名"}]}
-          >
-            <Input placeholder="請輸入演講者姓名" />
-          </Form.Item>
-
-          <Form.Item name="speakerDescription" label="演講者簡介">
-            <Input.TextArea placeholder="請輸入演講者簡介" rows={4} />
-          </Form.Item>
-
-          <Form.Item
-            label="演講者頭像"
-            name="speakerAvatarId"
-            rules={[{required: true, message: "請上傳演講者頭像"}]}
-          >
-            <Input disabled />
-          </Form.Item>
-
-          <Form.Item rules={[{required: true}]}>
-            <Upload
-              customRequest={(options) =>
-                handleImageUpload({...options, field: "speakerAvatarId"})
-              }
-              listType="picture"
-              accept="image/*"
-              maxCount={1}
-              onChange={(info: any) => {
-                if (info.file.status == "removed") {
-                  form.setFieldValue("speakerAvatarId", "");
-                }
-              }}
-            >
-              <Button icon={<UploadOutlined />}>更新演講者頭像</Button>
-            </Upload>
-          </Form.Item>
-
-          <Form.Item
-            label="描述"
-            rules={[{required: true, message: "請輸入描述"}]}
+            name="content"
+            label="Content"
+            rules={[{required: true, message: "Please enter Content"}]}
           >
             <ReactQuill
-              value={description}
-              onChange={setDescription}
+              value={content}
+              onChange={setContent}
               modules={quillModules}
-              placeholder="請輸入描述"
+              placeholder="Please enter Content"
             />
           </Form.Item>
-
-          <Form.Item name="has_recap" valuePropName="checked">
-            <Checkbox onChange={(e) => setShowRecap(e.target.checked)}>
-              Last Event Recap
-            </Checkbox>
-          </Form.Item>
-
-          {showRecap && (
-            <>
-              <Form.Item
-                name="last_event_recaps_title"
-                label="Recap Title"
-                rules={[{required: true, message: "Please enter recap title"}]}
-              >
-                <Input placeholder="Enter recap title" />
-              </Form.Item>
-
-              <Form.Item
-                name="last_event_recaps_attendence"
-                label="Attendance"
-                rules={[{required: true, message: "Please enter attendance"}]}
-              >
-                <InputNumber
-                  min={0}
-                  placeholder="Enter attendance"
-                  className="w-full"
-                />
-              </Form.Item>
-
-              <Form.Item
-                name="last_event_recaps_duration"
-                label="Duration (minutes)"
-                rules={[{required: true, message: "Please enter duration"}]}
-              >
-                <InputNumber
-                  min={0}
-                  placeholder="Enter duration in minutes"
-                  className="w-full"
-                />
-              </Form.Item>
-
-              <Form.Item
-                name="last_event_recaps_description"
-                label="Recap Description"
-                rules={[
-                  {required: true, message: "Please enter recap description"},
-                ]}
-              >
-                <Input.TextArea
-                  rows={4}
-                  placeholder="Enter recap description"
-                />
-              </Form.Item>
-
-              <Form.Item
-                name="last_event_recaps_link"
-                label="Recap Link"
-                rules={[
-                  {required: true, message: "Please enter recap link"},
-                  {type: "url", message: "Please enter a valid URL"},
-                ]}
-              >
-                <Input placeholder="Enter recap link" />
-              </Form.Item>
-
-              <Form.Item
-                label="Recap Cover Image"
-                name="last_event_recaps_cover_img_id"
-                rules={[
-                  {required: true, message: "Please upload recap cover image"},
-                ]}
-              >
-                <Input disabled />
-              </Form.Item>
-
-              <Form.Item rules={[{required: true}]}>
-                <Upload
-                  customRequest={(options) =>
-                    handleImageUpload({
-                      ...options,
-                      field: "last_event_recaps_cover_img_id",
-                    })
-                  }
-                  listType="picture"
-                  accept="image/*"
-                  maxCount={1}
-                  onChange={(info: any) => {
-                    if (info.file.status === "removed") {
-                      form.setFieldValue("last_event_recaps_cover_img_id", "");
-                    }
-                  }}
-                >
-                  <Button icon={<UploadOutlined />}>
-                    Upload Recap Cover Image
-                  </Button>
-                </Upload>
-              </Form.Item>
-            </>
-          )}
 
           <Form.Item>
             <Button
@@ -413,7 +250,7 @@ export default function NewsDetail() {
               icon={<SaveOutlined />}
               loading={loading}
             >
-              更新
+              Update
             </Button>
           </Form.Item>
         </Form>

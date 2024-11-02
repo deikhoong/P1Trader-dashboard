@@ -11,12 +11,12 @@ export default function Header() {
   const logout = useAuthStore((state) => state.logout);
   const items: MenuProps["items"] = [
     {
-      label: "登出",
+      label: "Log out",
       key: "1",
     },
   ];
   const onClick: MenuProps["onClick"] = async () => {
-    message.info("登出");
+    message.info("Log out");
     logout();
   };
 

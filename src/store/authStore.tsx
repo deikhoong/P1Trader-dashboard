@@ -54,7 +54,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({isLogin: false, isLoading: false});
     } catch (error) {
       set({
-        error: error instanceof Error ? error.message : "登出失敗",
+        error: error instanceof Error ? error.message : "Log out失敗",
         isLoading: false,
       });
       return false;

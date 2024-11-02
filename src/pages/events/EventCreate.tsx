@@ -115,7 +115,7 @@ export default function EventCreate() {
   const getRecapRules = (fieldName: string) => [
     {
       required: showRecap,
-      message: `請輸入 ${fieldName}`,
+      message: `Please enter   ${fieldName}`,
     },
   ];
 
@@ -142,7 +142,7 @@ export default function EventCreate() {
           className="hover:cursor-pointer hover:text-gray-700"
           onClick={() => window.history.back()}
         >
-          <ArrowLeftOutlined /> 建立Event
+          <ArrowLeftOutlined /> CreateEvent
         </Typography.Title>
       </div>
       <div
@@ -163,15 +163,15 @@ export default function EventCreate() {
         >
           <Form.Item
             name="title"
-            label="標題"
-            rules={[{required: true, message: "請輸入標題"}]}
+            label="Title"
+            rules={[{required: true, message: "Please enter  Title"}]}
           >
-            <Input placeholder="請輸入標題" />
+            <Input placeholder="Please enter  Title" />
           </Form.Item>
           <Form.Item
-            label="上傳封面圖"
+            label="UploadCover Image"
             name="coverId"
-            rules={[{required: true, message: "請上傳封面圖"}]}
+            rules={[{required: true, message: "請UploadCover Image"}]}
           >
             <Input
               disabled
@@ -194,33 +194,33 @@ export default function EventCreate() {
                 }
               }}
             >
-              <Button icon={<UploadOutlined />}>上傳封面圖</Button>
+              <Button icon={<UploadOutlined />}>UploadCover Image</Button>
             </Upload>
           </Form.Item>
           <Form.Item
             name="type"
-            label="類型"
-            rules={[{required: true, message: "請選擇類型"}]}
+            label="Type"
+            rules={[{required: true, message: "請選擇Type"}]}
           >
-            <Select placeholder="請選擇類型">
+            <Select placeholder="請選擇Type">
               <Select.Option value={EventType.WEBINAR}>Webinar</Select.Option>
               <Select.Option value={EventType.AMA}>AMA Session</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item
             name="location"
-            label="地點"
-            rules={[{required: true, message: "請選擇地點"}]}
+            label="Location"
+            rules={[{required: true, message: "請選擇Location"}]}
           >
-            <Select placeholder="請選擇地點">
+            <Select placeholder="請選擇Location">
               <Select.Option value={EventLocation.ONLINE}>Online</Select.Option>
               <Select.Option value={EventLocation.TAIPEI}>Taipei</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item
             name="startDate"
-            label="開始時間"
-            rules={[{required: true, message: "請選擇開始時間"}]}
+            label="Start Time"
+            rules={[{required: true, message: "請選擇Start Time"}]}
           >
             <DatePicker
               showTime={{
@@ -228,24 +228,24 @@ export default function EventCreate() {
               }}
               format="YYYY-MM-DD HH:mm"
               style={{width: "100%"}}
-              placeholder="請選擇開始時間"
+              placeholder="請選擇Start Time"
             />
           </Form.Item>
 
           <Form.Item
             name="speaker"
             label="演講者"
-            rules={[{required: true, message: "請輸入演講者姓名"}]}
+            rules={[{required: true, message: "Please enter  演講者姓名"}]}
           >
-            <Input placeholder="請輸入演講者姓名" />
+            <Input placeholder="Please enter  演講者姓名" />
           </Form.Item>
           <Form.Item name="speakerDescription" label="演講者簡介">
-            <Input.TextArea placeholder="請輸入演講者簡介" rows={4} />
+            <Input.TextArea placeholder="Please enter  演講者簡介" rows={4} />
           </Form.Item>
           <Form.Item
-            label="上傳演講者頭像"
+            label="Upload演講者頭像"
             name="speakerAvatarId"
-            rules={[{required: true, message: "請上傳演講者頭像"}]}
+            rules={[{required: true, message: "請Upload演講者頭像"}]}
           >
             <Input
               disabled
@@ -268,18 +268,18 @@ export default function EventCreate() {
                 }
               }}
             >
-              <Button icon={<UploadOutlined />}>上傳演講者頭像</Button>
+              <Button icon={<UploadOutlined />}>Upload演講者頭像</Button>
             </Upload>
           </Form.Item>
           <Form.Item
             label="描述"
-            rules={[{required: true, message: "請輸入描述"}]}
+            rules={[{required: true, message: "Please enter  描述"}]}
           >
             <ReactQuill
               value={description}
               onChange={setDescription}
               modules={quillModules}
-              placeholder="請輸入描述"
+              placeholder="Please enter  描述"
             />
           </Form.Item>
           <Form.Item name="has_recap" valuePropName="checked">
@@ -291,7 +291,7 @@ export default function EventCreate() {
               <Form.Item
                 name="recapsTitle"
                 label="Recap Title"
-                rules={getRecapRules("recap 標題")}
+                rules={getRecapRules("recap Title")}
                 validateTrigger={["onChange", "onBlur"]}
               >
                 <Input placeholder="Enter recap title" />
@@ -300,7 +300,7 @@ export default function EventCreate() {
               <Form.Item
                 label="Recap Cover Image"
                 name="recapsCoverId"
-                rules={getRecapRules("recap 封面圖")}
+                rules={getRecapRules("recap Cover Image")}
                 validateTrigger={["onChange", "onBlur"]}
               >
                 <Input disabled />
@@ -371,7 +371,7 @@ export default function EventCreate() {
                   ...getRecapRules("recap 網址"),
                   {
                     type: "url",
-                    message: "請輸入正確的網址",
+                    message: "Please enter  正確的網址",
                   },
                 ]}
                 validateTrigger={["onChange", "onBlur"]}
@@ -390,7 +390,7 @@ export default function EventCreate() {
               icon={<SaveOutlined />}
               loading={loading}
             >
-              建立
+              Create
             </Button>
           </Form.Item>
         </Form>

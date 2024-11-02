@@ -65,7 +65,7 @@ export default function UserList() {
         }));
       } catch (error) {
         console.error(error);
-        messageApi.error("無法取得使用者列表");
+        messageApi.error("無法取得使用者List");
       } finally {
         setLoading(false);
       }
@@ -95,7 +95,7 @@ export default function UserList() {
     try {
       const values = await form.validateFields();
       await CreateUser(values);
-      messageApi.success("使用者已成功建立！");
+      messageApi.success("使用者已成功Create！");
       setIsModalOpen(false);
       form.resetFields();
       fetchUsers();
@@ -105,9 +105,9 @@ export default function UserList() {
         error.response.data &&
         error.response.data.message
       ) {
-        messageApi.error(error.response.data.message || "建立使用者失敗");
+        messageApi.error(error.response.data.message || "Create使用者失敗");
       } else {
-        messageApi.error("建立使用者失敗");
+        messageApi.error("Create使用者失敗");
       }
     }
   };
@@ -121,7 +121,7 @@ export default function UserList() {
       render: (nickname: string | null) => nickname || "N/A",
     },
     {
-      title: "Trading View Email",
+      title: "TradingView Email",
       dataIndex: "tradingViewEmail",
       key: "tradingViewEmail",
     },
@@ -134,7 +134,7 @@ export default function UserList() {
           onClick={() => navigate(`/users/${record.id}`)}
           icon={<EditOutlined />}
         >
-          編輯
+          edit
         </Button>
       ),
     },
@@ -146,16 +146,16 @@ export default function UserList() {
       <div className="my-6 mx-4">
         <Breadcrumb
           className="my-4"
-          items={[{title: "使用者"}, {title: "列表"}]}
+          items={[{title: "User"}, {title: "List"}]}
         />
         <div className="flex w-full justify-between items-center mb-3">
-          <Typography.Title level={2}>使用者列表</Typography.Title>
+          <Typography.Title level={2}>User List</Typography.Title>
           <Button
             type="primary"
             icon={<PlusOutlined />}
             onClick={handleAddUser}
           >
-            建立使用者
+            Create User
           </Button>
         </div>
         <div
@@ -184,7 +184,7 @@ export default function UserList() {
         onOk={handleCreateUser}
         onCancel={handleCancel}
         centered
-        okText="建立"
+        okText="Create"
         cancelText="取消"
       >
         <Form form={form} layout="vertical">
@@ -196,7 +196,7 @@ export default function UserList() {
               {type: "email", message: "帳號必須是Email格式"},
             ]}
           >
-            <Input placeholder="請輸入帳號" prefix={<EditOutlined />} />
+            <Input placeholder="Please enter  帳號" prefix={<EditOutlined />} />
           </Form.Item>
           <Form.Item
             name="password"
@@ -207,7 +207,7 @@ export default function UserList() {
             ]}
           >
             <Input.Password
-              placeholder="請輸入密碼"
+              placeholder="Please enter  密碼"
               prefix={<EditOutlined />}
             />
           </Form.Item>
@@ -216,7 +216,7 @@ export default function UserList() {
             label="名稱 (Nickname)"
             rules={[{required: true, message: "名稱不能為空"}]}
           >
-            <Input placeholder="請輸入名稱" prefix={<EditOutlined />} />
+            <Input placeholder="Please enter  名稱" prefix={<EditOutlined />} />
           </Form.Item>
           <Form.Item
             name="role"

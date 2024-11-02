@@ -54,7 +54,7 @@ export default function NewsList() {
         }));
       } catch (error) {
         console.error(error);
-        messageApi.error("無法取得Event列表");
+        messageApi.error("Unable to retrieve News List");
       } finally {
         setLoading(false);
       }
@@ -75,18 +75,22 @@ export default function NewsList() {
 
   const columns = [
     {
-      title: "封面圖",
+      title: "Cover Image",
       dataIndex: "cover",
       key: "cover",
       render: (cover: {url: string}) =>
         cover ? (
-          <img src={cover.url} alt="封面圖" style={{width: 50, height: 50}} />
+          <img
+            src={cover.url}
+            alt="Cover Image"
+            style={{width: 50, height: 50}}
+          />
         ) : (
           "N/A"
         ),
     },
-    {title: "標題", dataIndex: "title", key: "title"},
-    {title: "類型", dataIndex: "type", key: "type"},
+    {title: "Title", dataIndex: "title", key: "title"},
+    {title: "Type", dataIndex: "type", key: "type"},
     {
       title: "",
       key: "action",
@@ -95,7 +99,7 @@ export default function NewsList() {
           onClick={() => navigate(`/news/${record.id}`)}
           icon={<EditOutlined />}
         >
-          編輯
+          edit
         </Button>
       ),
     },
@@ -107,16 +111,16 @@ export default function NewsList() {
       <div className="my-6 mx-4">
         <Breadcrumb
           className="my-4"
-          items={[{title: "新聞"}, {title: "列表"}]}
+          items={[{title: "News"}, {title: "List"}]}
         />
         <div className="flex w-full justify-between items-center mb-3">
-          <Typography.Title level={2}>News 列表</Typography.Title>
+          <Typography.Title level={2}>News List</Typography.Title>
           <Button
             type="primary"
             icon={<PlusOutlined />}
-            onClick={() => navigate(`/events/create`)}
+            onClick={() => navigate(`/news/create`)}
           >
-            建立 News
+            Create News
           </Button>
         </div>
         <div

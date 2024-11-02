@@ -12,12 +12,12 @@ export default function Sider() {
     {
       key: "users",
       icon: React.createElement(UserOutlined),
-      label: `使用者`,
+      label: `Users`,
     },
     {
       key: "events",
       icon: React.createElement(CalendarOutlined),
-      label: `Event`,
+      label: `Events`,
     },
     {
       key: "news",
