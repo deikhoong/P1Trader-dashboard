@@ -163,3 +163,11 @@ export enum NewsType {
   ANALYSIS = 'Analysis',
   CRYPTO = 'Crypto',
 }
+
+export type CourseListItem = {
+  id: string;
+  name: string;
+  price: number;
+  language: string;
+  subtitles: string;
+};

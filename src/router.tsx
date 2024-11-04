@@ -11,6 +11,8 @@ import EventCreate from "./pages/events/EventCreate";
 import NewsList from "./pages/news/NewsList";
 import NewsCreate from "./pages/news/NewsCreate";
 import NewsDetail from "./pages/news/NewsDetail";
+import CourseList from "./pages/courses/CourseLIst";
+import CourseDetail from "./pages/courses/CourseDetail";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const MainRoutes = () => (
@@ -47,13 +49,22 @@ export const router = createBrowserRouter([
         ],
       },
 
-      // Event routes
+      // News routes
       {
         path: "news",
         children: [
           {index: true, element: <NewsList />},
           {path: "create", element: <NewsCreate />},
           {path: ":newsId", element: <NewsDetail />},
+        ],
+      },
+
+      // Courses routes
+      {
+        path: "courses",
+        children: [
+          {index: true, element: <CourseList />},
+          {path: ":courseId", element: <CourseDetail />},
         ],
       },
     ],

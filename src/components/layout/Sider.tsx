@@ -1,6 +1,11 @@
 import React from "react";
 import {Layout, Menu} from "antd";
-import {CalendarOutlined, ReadOutlined, UserOutlined} from "@ant-design/icons";
+import {
+  BookOutlined,
+  CalendarOutlined,
+  ReadOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import type {MenuProps} from "antd";
 import {useNavigate} from "react-router-dom";
 
@@ -23,6 +28,11 @@ export default function Sider() {
       key: "news",
       icon: React.createElement(ReadOutlined),
       label: `News`,
+    },
+    {
+      key: "courses",
+      icon: React.createElement(BookOutlined),
+      label: `Courses`,
     },
   ];
 

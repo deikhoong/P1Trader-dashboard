@@ -74,6 +74,7 @@ export default function NewsCreate() {
           [{header: "1"}, {header: "2"}, {font: []}],
           [{list: "ordered"}, {list: "bullet"}],
           ["bold", "italic", "underline"],
+          [{color: []}, {background: []}],
           [{align: []}],
           ["link", "image"],
         ],
@@ -136,7 +137,7 @@ export default function NewsCreate() {
             <Input placeholder="Please enter  Title" />
           </Form.Item>
           <Form.Item
-            label="Cover Image"
+            label="Cover Image (800px X 485px)"
             name="coverId"
             rules={[{required: true, message: "Upload Cover Image"}]}
           >

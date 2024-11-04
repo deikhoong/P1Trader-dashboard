@@ -221,9 +221,9 @@ export default function UserList() {
           <Form.Item
             name="role"
             label="角色"
-            rules={[{required: true, message: "請選擇角色"}]}
+            rules={[{required: true, message: "Please Select 角色"}]}
           >
-            <Select placeholder="請選擇角色">
+            <Select placeholder="Please Select 角色">
               <Select.Option value={UserRole.Admin}>Admin</Select.Option>
               <Select.Option value={UserRole.Member}>Member</Select.Option>
             </Select>

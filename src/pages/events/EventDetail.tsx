@@ -128,6 +128,7 @@ export default function EventDetail() {
           [{header: "1"}, {header: "2"}, {font: []}],
           [{list: "ordered"}, {list: "bullet"}],
           ["bold", "italic", "underline"],
+          [{color: []}, {background: []}],
           [{align: []}],
           ["link", "image"],
         ],
@@ -257,9 +258,9 @@ export default function EventDetail() {
           <Form.Item
             name="type"
             label="Type"
-            rules={[{required: true, message: "請選擇Type"}]}
+            rules={[{required: true, message: "Please Select Type"}]}
           >
-            <Select placeholder="請選擇Type">
+            <Select placeholder="Please Select Type">
               <Select.Option value={EventType.WEBINAR}>Webinar</Select.Option>
               <Select.Option value={EventType.AMA}>AMA Session</Select.Option>
             </Select>
@@ -268,9 +269,9 @@ export default function EventDetail() {
           <Form.Item
             name="location"
             label="Location"
-            rules={[{required: true, message: "請選擇Location"}]}
+            rules={[{required: true, message: "Please Select Location"}]}
           >
-            <Select placeholder="請選擇Location">
+            <Select placeholder="Please Select Location">
               <Select.Option value={EventLocation.ONLINE}>Online</Select.Option>
               <Select.Option value={EventLocation.TAIPEI}>Taipei</Select.Option>
             </Select>
@@ -279,32 +280,32 @@ export default function EventDetail() {
           <Form.Item
             name="startDate"
             label="Start Time"
-            rules={[{required: true, message: "請選擇Start Time"}]}
+            rules={[{required: true, message: "Please Select Start Time"}]}
           >
             <DatePicker
               showTime={{format: "HH:mm"}}
               format="YYYY-MM-DD HH:mm"
               className="w-full"
-              placeholder="請選擇Start Time"
+              placeholder="Please Select Start Time"
             />
           </Form.Item>
 
           <Form.Item
             name="speaker"
-            label="演講者"
-            rules={[{required: true, message: "Please enter  演講者姓名"}]}
+            label="Speaker"
+            rules={[{required: true, message: "Please enter Speaker Name"}]}
           >
-            <Input placeholder="Please enter  演講者姓名" />
+            <Input placeholder="Please enter Speaker Name" />
           </Form.Item>
 
-          <Form.Item name="speakerDescription" label="演講者簡介">
-            <Input.TextArea placeholder="Please enter  演講者簡介" rows={4} />
+          <Form.Item name="speakerDescription" label="Speaker Info">
+            <Input.TextArea placeholder="Please enter Speaker Info" rows={4} />
           </Form.Item>
 
           <Form.Item
-            label="演講者頭像"
+            label="Speaver Avatar"
             name="speakerAvatarId"
-            rules={[{required: true, message: "請Upload演講者頭像"}]}
+            rules={[{required: true, message: "Upload Speaker Image"}]}
           >
             <Input disabled />
           </Form.Item>
@@ -323,7 +324,7 @@ export default function EventDetail() {
                 }
               }}
             >
-              <Button icon={<UploadOutlined />}>Update演講者頭像</Button>
+              <Button icon={<UploadOutlined />}>Upload Speaker Image</Button>
             </Upload>
           </Form.Item>
 
