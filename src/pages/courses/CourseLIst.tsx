@@ -2,7 +2,7 @@ import {Breadcrumb, theme, Typography, Table, Button, message} from "antd";
 
 import {useCallback, useEffect, useState} from "react";
 
-import {EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {EditOutlined} from "@ant-design/icons";
 import type {TablePaginationConfig} from "antd";
 import {useNavigate} from "react-router-dom";
 
