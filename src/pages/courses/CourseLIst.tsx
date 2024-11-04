@@ -77,7 +77,7 @@ export default function CourseList() {
     {title: "Name", dataIndex: "name", key: "name"},
     {title: "Price", dataIndex: "price", key: "price"},
     {title: "Language", dataIndex: "language", key: "language"},
-    {title: "Price", dataIndex: "subtitles", key: "subtitles"},
+    {title: "Subtitles", dataIndex: "subtitles", key: "subtitles"},
     {
       title: "",
       key: "action",
