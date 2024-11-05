@@ -1,4 +1,4 @@
-import { CourseRequest, NewsRequest, Pagination } from "./api.types";
+import { CourseRequest, Pagination } from "./api.types";
 import axiosInstance from "./axios";
 
 export const GetCourses = async (pagination: Pagination) => {
