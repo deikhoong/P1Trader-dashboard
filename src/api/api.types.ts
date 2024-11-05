@@ -171,3 +171,35 @@ export type CourseListItem = {
   language: string;
   subtitles: string;
 };
+
+export type CourseInfo = { 
+  name: string;
+  includes: string[];
+  price: number;
+  title: string;
+  description: string;
+  willLearns: string[];
+  language: string;
+  subtitles: string;
+  tutorImage: {
+    id: string;
+    url: string;
+  };
+  tutorName: string;
+  tutorDescription: string;
+  tutorRating: string;
+  tutorReviews: string;
+  tutorStudents: string;
+  tutorCourses: string;
+  tutorIntro: string;
+  updatedAt: string;
+  curriculum: CourseCurriculum[];
+
+}
+
+export type CourseCurriculum ={
+  name: string;
+  lessons: number;
+  durationTime: string;
+}
+
