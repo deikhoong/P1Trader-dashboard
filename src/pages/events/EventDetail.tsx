@@ -231,7 +231,7 @@ export default function EventDetail() {
           </Form.Item>
 
           <Form.Item
-            label="Cover Image"
+            label="Cover Image (400x340)"
             name="coverId"
             rules={[{required: true, message: "Upload Cover Image"}]}
           >
@@ -303,7 +303,7 @@ export default function EventDetail() {
           </Form.Item>
 
           <Form.Item
-            label="Speaver Avatar"
+            label="Speaver Avatar (100x124)"
             name="speakerAvatarId"
             rules={[{required: true, message: "Upload Speaker Image"}]}
           >
@@ -356,7 +356,7 @@ export default function EventDetail() {
               </Form.Item>
 
               <Form.Item
-                label="Recap Cover Image"
+                label="Recap Cover Image (650 x 650)"
                 name="recapsCoverId"
                 rules={getRecapRules("recap Cover Image")}
                 validateTrigger={["onChange", "onBlur"]}

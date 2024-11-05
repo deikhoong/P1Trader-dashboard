@@ -1,4 +1,4 @@
-import { NewsRequest, Pagination } from "./api.types";
+import { CourseRequest, NewsRequest, Pagination } from "./api.types";
 import axiosInstance from "./axios";
 
 export const GetCourses = async (pagination: Pagination) => {
@@ -7,12 +7,12 @@ export const GetCourses = async (pagination: Pagination) => {
 }
 
 export const GetCourse = async (id: string) => {
-  const response = await axiosInstance.get(`/admin/course/${id}`);
+  const response = await axiosInstance.get(`/admin/courses/${id}`);
   return response.data;
 }
 
-export const UpdateCourse = async (id: string, data: NewsRequest) => {
-  const response = await axiosInstance.patch(`/admin/course/${id}`, data);
+export const UpdateCourse = async (id: string, data: CourseRequest) => {
+  const response = await axiosInstance.patch(`/admin/courses/${id}`, data);
   return response.data;
 }
 

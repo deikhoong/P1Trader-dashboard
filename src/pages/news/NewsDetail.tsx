@@ -187,7 +187,7 @@ export default function NewsDetail() {
             <Input placeholder="Please enter  Title" />
           </Form.Item>
           <Form.Item
-            label="Cover Image (800px X 485px)"
+            label="Cover Image (800 x 485)"
             name="coverId"
             rules={[{required: true, message: "Upload Cover Image"}]}
           >

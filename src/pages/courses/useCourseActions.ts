@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import { message } from "antd";
-import { CourseInfo, EventRequest } from "../../api/api.types"; // Adjust the path as needed
+import { CourseInfo, CourseRequest } from "../../api/api.types";
 
-import { GetCourse } from "../../api/courses";
+import { GetCourse, UpdateCourse } from "../../api/courses";
 
 
 export function useCourseActions(courseId?: string) {
@@ -24,11 +24,11 @@ export function useCourseActions(courseId?: string) {
   }, [courseId]);
 
   // Update course
-  const updateCourse = useCallback(async (id: string, updatedData: EventRequest) => {
+  const updateCourse = useCallback(async (id: string, updatedData: CourseRequest) => {
     if (!courseId) return;
     setLoading(true);
     try {
-      await updateCourse(id, updatedData);
+      await UpdateCourse(id, updatedData);
       message.success("Event updated successfully.");
       return true;
     } catch (error) {
@@ -41,5 +41,5 @@ export function useCourseActions(courseId?: string) {
 
 
 
-  return { course, loading, fetchCourse,  updateCourse };
+  return { course, loading, fetchCourse, updateCourse };
 }

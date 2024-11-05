@@ -172,7 +172,7 @@ export type CourseListItem = {
   subtitles: string;
 };
 
-export type CourseInfo = { 
+export type CourseInfo = {
   name: string;
   includes: string[];
   price: number;
@@ -194,10 +194,34 @@ export type CourseInfo = {
   tutorIntro: string;
   updatedAt: string;
   curriculum: CourseCurriculum[];
+  teachableCourseId: string;
 
 }
 
-export type CourseCurriculum ={
+export type CourseRequest = {
+  name: string;
+  includes: string[];
+  price: number;
+  title: string;
+  description: string;
+  willLearns: string[];
+  language: string;
+  subtitles: string;
+  tutorImageId: string;
+  tutorName: string;
+  tutorDescription: string;
+  tutorRating: string;
+  tutorReviews: string;
+  tutorStudents: string;
+  tutorCourses: string;
+  tutorIntro: string;
+  updatedAt: string;
+  curriculum: CourseCurriculum[];
+  teachableCourseId: string;
+
+}
+
+export type CourseCurriculum = {
   name: string;
   lessons: number;
   durationTime: string;
