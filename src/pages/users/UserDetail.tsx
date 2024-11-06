@@ -1,10 +1,21 @@
-import {Button, Form, Input, Popconfirm, theme, Typography} from "antd";
-import {useCallback, useEffect} from "react";
+import {
+  Button,
+  Form,
+  Input,
+  Popconfirm,
+  Space,
+  Tag,
+  theme,
+  Tooltip,
+  Typography,
+} from "antd";
+import {useCallback, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import {
   ArrowLeftOutlined,
   DeleteOutlined,
+  PlusOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
 import {UserInfo} from "../../api/api.types";
@@ -19,6 +30,10 @@ export default function UserDetail() {
   const {
     token: {colorBgContainer, borderRadiusLG},
   } = theme.useToken();
+
+  const [tags, setTags] = useState<string[]>([]);
+  const [inputVisible, setInputVisible] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     if (!userId) {
@@ -44,6 +59,27 @@ export default function UserDetail() {
 
     await updateUser(updatedFields);
   }, [form, updateUser]);
+
+  const handleClose = (removedTag: string) => {
+    const newTags = tags.filter((tag: string) => tag !== removedTag);
+    setTags(newTags);
+  };
+
+  const showInput = () => {
+    setInputVisible(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputConfirm = () => {
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      setTags([...tags, inputValue]);
+    }
+    setInputVisible(false);
+    setInputValue("");
+  };
 
   return (
     <div className="my-6 mx-4">
@@ -109,6 +145,46 @@ export default function UserDetail() {
             <Input placeholder="Please enter  iscord ID" />
           </Form.Item>
           <Form.Item name="phone"></Form.Item>
+
+          <Form.Item name="tags" label="標籤">
+            <Space size={[0, 8]} wrap>
+              {tags.map((tag: any, index: any) => {
+                const isLongTag = tag.length > 20;
+                const tagElem = (
+                  <Tag
+                    key={tag}
+                    closable={true}
+                    onClose={() => handleClose(tag)}
+                  >
+                    {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                  </Tag>
+                );
+                return isLongTag ? (
+                  <Tooltip title={tag} key={tag}>
+                    {tagElem}
+                  </Tooltip>
+                ) : (
+                  tagElem
+                );
+              })}
+              {inputVisible && (
+                <Input
+                  type="text"
+                  size="small"
+                  style={{width: 78}}
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onBlur={handleInputConfirm}
+                  onPressEnter={handleInputConfirm}
+                />
+              )}
+              {!inputVisible && (
+                <Tag onClick={showInput} className="site-tag-plus">
+                  <PlusOutlined /> New Tag
+                </Tag>
+              )}
+            </Space>
+          </Form.Item>
           <Form.Item>
             <Button
               type="primary"
