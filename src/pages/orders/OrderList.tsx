@@ -2,7 +2,7 @@ import {Breadcrumb, theme, Table, message, Badge} from "antd";
 
 import {useCallback, useEffect, useState} from "react";
 
-import type {BadgeProps, TablePaginationConfig} from "antd";
+import type {TablePaginationConfig} from "antd";
 
 import {OrderListItem, OrderStatus, Pagination} from "../../api/api.types";
 

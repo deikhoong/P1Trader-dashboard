@@ -148,7 +148,7 @@ export default function UserDetail() {
 
           <Form.Item name="tags" label="標籤">
             <Space size={[0, 8]} wrap>
-              {tags.map((tag: any, index: any) => {
+              {tags.map((tag: any) => {
                 const isLongTag = tag.length > 20;
                 const tagElem = (
                   <Tag
