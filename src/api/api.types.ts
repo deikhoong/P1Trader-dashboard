@@ -227,3 +227,20 @@ export type CourseCurriculum = {
   durationTime: string;
 }
 
+export type OrderListItem = {
+  id: string;
+  paidAt: string;
+  status: OrderStatus;
+  course: string;
+  payment: string;
+  user: string;
+};
+
+
+export enum OrderStatus {
+  paying = 'paying',
+  paid = 'paid',
+  fail = 'fail',
+}
+
+

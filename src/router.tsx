@@ -13,6 +13,7 @@ import NewsCreate from "./pages/news/NewsCreate";
 import NewsDetail from "./pages/news/NewsDetail";
 import CourseList from "./pages/courses/CourseLIst";
 import CourseDetail from "./pages/courses/CourseDetail";
+import OrderList from "./pages/orders/OrderList";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const MainRoutes = () => (
@@ -66,6 +67,12 @@ export const router = createBrowserRouter([
           {index: true, element: <CourseList />},
           {path: ":courseId", element: <CourseDetail />},
         ],
+      },
+
+      // Courses routes
+      {
+        path: "orders",
+        children: [{index: true, element: <OrderList />}],
       },
     ],
   },

@@ -3,6 +3,7 @@ import {Layout, Menu} from "antd";
 import {
   BookOutlined,
   CalendarOutlined,
+  OrderedListOutlined,
   ReadOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -33,6 +34,11 @@ export default function Sider() {
       key: "courses",
       icon: React.createElement(BookOutlined),
       label: `Courses`,
+    },
+    {
+      key: "orders",
+      icon: React.createElement(OrderedListOutlined),
+      label: `Orders`,
     },
   ];
 
