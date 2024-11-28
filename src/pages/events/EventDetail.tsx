@@ -159,7 +159,7 @@ export default function EventDetail() {
   const getRecapRules = (fieldName: string) => [
     {
       required: showRecap,
-      message: `Please enter   ${fieldName}`,
+      message: `Please enter ${fieldName}`,
     },
   ];
 
@@ -329,14 +329,15 @@ export default function EventDetail() {
           </Form.Item>
 
           <Form.Item
-            label="描述"
-            rules={[{required: true, message: "Please enter  描述"}]}
+            label="Content"
+            name="content"
+            rules={[{required: true, message: "Please enter content"}]}
           >
             <ReactQuill
               value={description}
               onChange={setDescription}
               modules={quillModules}
-              placeholder="Please enter  描述"
+              placeholder="Please enter content"
             />
           </Form.Item>
 
@@ -349,7 +350,7 @@ export default function EventDetail() {
               <Form.Item
                 name="recapsTitle"
                 label="Recap Title"
-                rules={getRecapRules("recap Title")}
+                rules={getRecapRules("recap title")}
                 validateTrigger={["onChange", "onBlur"]}
               >
                 <Input placeholder="Enter recap title" />
@@ -358,7 +359,7 @@ export default function EventDetail() {
               <Form.Item
                 label="Recap Cover Image (650 x 650)"
                 name="recapsCoverId"
-                rules={getRecapRules("recap Cover Image")}
+                rules={getRecapRules("recap cover image")}
                 validateTrigger={["onChange", "onBlur"]}
               >
                 <Input disabled />
@@ -387,7 +388,7 @@ export default function EventDetail() {
               <Form.Item
                 name="recapsAttendance"
                 label="Attendance"
-                rules={getRecapRules("參與人數")}
+                rules={getRecapRules("Attendance")}
                 validateTrigger={["onChange", "onBlur"]}
               >
                 <InputNumber
@@ -400,7 +401,7 @@ export default function EventDetail() {
               <Form.Item
                 name="recapsDuration"
                 label="Duration (hour)"
-                rules={getRecapRules("時間")}
+                rules={getRecapRules("Duration")}
                 validateTrigger={["onChange", "onBlur"]}
               >
                 <InputNumber
@@ -413,7 +414,7 @@ export default function EventDetail() {
               <Form.Item
                 name="recapsDescription"
                 label="Recap Description"
-                rules={getRecapRules("recap 描述")}
+                rules={getRecapRules("recap description")}
                 validateTrigger={["onChange", "onBlur"]}
               >
                 <Input.TextArea
@@ -426,10 +427,10 @@ export default function EventDetail() {
                 name="recapsLink"
                 label="Recap Link"
                 rules={[
-                  ...getRecapRules("recap 網址"),
+                  ...getRecapRules("recap link"),
                   {
                     type: "url",
-                    message: "Please enter  正確的網址",
+                    message: "Please enter correct URL",
                   },
                 ]}
                 validateTrigger={["onChange", "onBlur"]}

@@ -165,14 +165,14 @@ export default function EventCreate() {
           <Form.Item
             name="title"
             label="Title"
-            rules={[{required: true, message: "Please enter  Title"}]}
+            rules={[{required: true, message: "Please enter title"}]}
           >
             <Input placeholder="Please enter  Title" />
           </Form.Item>
           <Form.Item
-            label="UploadCover Image"
+            label="Upload Cover Image"
             name="coverId"
-            rules={[{required: true, message: "請UploadCover Image"}]}
+            rules={[{required: true, message: "Please Upload Cover Image"}]}
           >
             <Input
               disabled
@@ -235,18 +235,18 @@ export default function EventCreate() {
 
           <Form.Item
             name="speaker"
-            label="演講者"
-            rules={[{required: true, message: "Please enter  演講者姓名"}]}
+            label="Speaker Name"
+            rules={[{required: true, message: "Please enter speaker name"}]}
           >
-            <Input placeholder="Please enter  演講者姓名" />
+            <Input placeholder="Please enter speaker name" />
           </Form.Item>
-          <Form.Item name="speakerDescription" label="Speaker Info">
-            <Input.TextArea placeholder="Please enter  Speaker Info" rows={4} />
+          <Form.Item name="speakerDescription" label="Speaker Info" rules={[{required: true, message:"Please Enter Speaker Info"}]}>
+            <Input.TextArea placeholder="Please enter speaker info" rows={4} />
           </Form.Item>
           <Form.Item
-            label="Upload演講者頭像"
+            label="Speaver Avatar (100x124)"
             name="speakerAvatarId"
-            rules={[{required: true, message: "Upload Speaker Image"}]}
+            rules={[{required: true, message: "Upload Speaker Avatar"}]}
           >
             <Input
               disabled
@@ -269,18 +269,19 @@ export default function EventCreate() {
                 }
               }}
             >
-              <Button icon={<UploadOutlined />}>Upload演講者頭像</Button>
+              <Button icon={<UploadOutlined />}>Upload Speaker Avatar</Button>
             </Upload>
           </Form.Item>
           <Form.Item
-            label="描述"
-            rules={[{required: true, message: "Please enter  描述"}]}
+            label="Content"
+            name="content"
+            rules={[{required: true, message: "Please enter content"}]}
           >
             <ReactQuill
               value={description}
               onChange={setDescription}
               modules={quillModules}
-              placeholder="Please enter  描述"
+              placeholder="Please enter content"
             />
           </Form.Item>
           <Form.Item name="has_recap" valuePropName="checked">
