@@ -243,4 +243,16 @@ export enum OrderStatus {
   fail = 'fail',
 }
 
+export type StudenySayListItem = {
+  id: number;
+  video: {
+    id: string;
+    url: string;
+  };
+}
+
+export type StudentSaysRequest = {
+  videoId: string;
+}
+
 

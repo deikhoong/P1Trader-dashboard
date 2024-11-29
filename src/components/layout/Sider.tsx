@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import {Layout, Menu} from "antd";
 import {
   BookOutlined,
   CalendarOutlined,
+  HomeOutlined,
   OrderedListOutlined,
   ReadOutlined,
   UserOutlined,
+  VideoCameraOutlined,
 } from "@ant-design/icons";
 import type {MenuProps} from "antd";
 import {useNavigate} from "react-router-dom";
@@ -13,8 +15,21 @@ import {useNavigate} from "react-router-dom";
 export default function Sider() {
   const navigate = useNavigate();
   const {Sider} = Layout;
+  const [collapsed, setCollapsed] = useState(false);
 
   const menuItems: MenuProps["items"] = [
+    {
+      key: "home",
+      icon: React.createElement(HomeOutlined),
+      label: `Home`,
+      children: [
+        {
+          key: "home-student-say",
+          icon: React.createElement(VideoCameraOutlined),
+          label: `Students Say`,
+        },
+      ],
+    },
     {
       key: "users",
       icon: React.createElement(UserOutlined),
@@ -60,7 +75,9 @@ export default function Sider() {
 
   return (
     <>
-      <Sider style={siderStyle}>
+      <Sider style={siderStyle} collapsible collapsed={collapsed} onCollapse={setCollapsed} 
+        width={200} 
+        collapsedWidth={80}>
         <Menu
           onClick={onClick}
           theme="dark"

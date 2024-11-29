@@ -14,6 +14,7 @@ import NewsDetail from "./pages/news/NewsDetail";
 import CourseList from "./pages/courses/CourseLIst";
 import CourseDetail from "./pages/courses/CourseDetail";
 import OrderList from "./pages/orders/OrderList";
+import StudentSayList from "./pages/home/StudentSayList";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const MainRoutes = () => (
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
     element: <MainRoutes />,
     errorElement: <NotFound />,
     children: [
+      {
+        path: "/home-student-say",
+        element: <StudentSayList />,
+      },
       // User routes
       {
         path: "users",
