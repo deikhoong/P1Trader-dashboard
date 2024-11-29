@@ -298,8 +298,8 @@ export default function EventDetail() {
             <Input placeholder="Please enter Speaker Name" />
           </Form.Item>
 
-          <Form.Item name="speakerDescription" label="Speaker Info">
-            <Input.TextArea placeholder="Please enter Speaker Info" rows={4} />
+          <Form.Item name="speakerDescription" label="Speaker Info" rules={[{required: true, message:"Please Enter Speaker Info"}]}>
+            <Input.TextArea placeholder="Please enter speaker info" rows={4} />
           </Form.Item>
 
           <Form.Item
