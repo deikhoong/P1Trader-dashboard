@@ -26,7 +26,7 @@ export default function Sider() {
         {
           key: "home-student-say",
           icon: React.createElement(VideoCameraOutlined),
-          label: `Students Say`,
+          label: `Testimonial`,
         },
       ],
     },

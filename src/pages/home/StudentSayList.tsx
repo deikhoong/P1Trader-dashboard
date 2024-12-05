@@ -183,16 +183,16 @@ export default function StudentSayList() {
       <div className="my-6 mx-4">
         <Breadcrumb
           className="my-4"
-          items={[{title: "Student Says"}, {title: "List"}]}
+          items={[{title: "Testimonial"}, {title: "List"}]}
         />
         <div className="flex w-full justify-between items-center mb-3">
-          <Typography.Title level={2}>Student Says List</Typography.Title>
+          <Typography.Title level={2}>Testimonial List</Typography.Title>
           <Button
             type="primary"
             icon={<PlusOutlined />}
             onClick={handleAddUser}
           >
-            Create Student Says
+            Create Testimonial
           </Button>
         </div>
         <div
@@ -216,7 +216,7 @@ export default function StudentSayList() {
         </div>
       </div>
       <Modal
-        title="Create Student Says"
+        title="Add Testimonial Video"
         open={isModalOpen}
         onOk={handleCreate}
         onCancel={handleCancel}
@@ -226,9 +226,9 @@ export default function StudentSayList() {
       >
         <Form form={form} layout="vertical">
          <Form.Item
-            label="Student Says Video (less than 10 mb)"
+            label="Testimonial（Recommend 1080 × 1920）"
             name="videoId"
-            rules={[{required: true, message: "Upload Student Says Videor"}]}
+            rules={[{required: true, message: "Upload Testimonial Video"}]}
           >
             <Input
               disabled
