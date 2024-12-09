@@ -30,10 +30,10 @@ export function useUserActions(userId: string | undefined) {
     try {
       await UpdateUser(userId, updatedData);
       setUser(prevUser => ({ ...prevUser, ...updatedData } as UserInfo));
-      message.success('Update成功');
+      message.success('Update successfully');
     } catch (err) {
-      setError('Update失敗，請稍後再試');
-      message.error('Update失敗，請稍後再試');
+      setError('Update failed, please try again later.');
+      message.error('Update failed, please try again later.');
     } finally {
       setLoading(false);
     }
@@ -45,10 +45,10 @@ export function useUserActions(userId: string | undefined) {
     setError(null);
     try {
       await DeleteUser(userId);
-      message.success('刪除成功');
+      message.success('Delete successfully');
     } catch (err) {
-      setError('刪除失敗，請稍後再試');
-      message.error('刪除失敗，請稍後再試');
+      setError('Delete failed, please try again later.');
+      message.error('Delete failed, please try again later.');
     } finally {
       setLoading(false);
     }

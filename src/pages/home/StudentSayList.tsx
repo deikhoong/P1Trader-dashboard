@@ -15,8 +15,12 @@ import {useCallback, useEffect, useState} from "react";
 import {DeleteOutlined, PlusOutlined, UploadOutlined} from "@ant-design/icons";
 import type {TablePaginationConfig} from "antd";
 import {Pagination, StudenySayListItem} from "../../api/api.types";
-import { CreatedStudentSay, DeleteStudentSays, GetStudentSayVideos } from "../../api/home";
-import { UploadFile } from "../../api/common";
+import {
+  CreatedStudentSay,
+  DeleteStudentSays,
+  GetStudentSayVideos,
+} from "../../api/home";
+import {UploadFile} from "../../api/common";
 
 interface TableParams {
   pagination?: TablePaginationConfig;
@@ -93,7 +97,7 @@ export default function StudentSayList() {
 
   const handleFileBeforeUpload = (file: File) => {
     if (file.size > MAX_FILE_SIZE) {
-      message.error('File size exceeds 10 MB limit');
+      message.error("File size exceeds 10 MB limit");
       return Upload.LIST_IGNORE;
     }
     return true;
@@ -101,14 +105,11 @@ export default function StudentSayList() {
 
   const handleFileUpload = async ({onSuccess, onError, file, field}: any) => {
     try {
-      console.log('123');
       const response = await UploadFile(file);
-      console.log(response.data);
       form.setFieldValue(field, response.data.id);
       onSuccess(response.data.id);
       messageApi.success("File uploaded successfully!");
     } catch (error) {
-
       messageApi.error("Failed to upload file");
       onError(error);
     }
@@ -128,7 +129,9 @@ export default function StudentSayList() {
         error.response.data &&
         error.response.data.message
       ) {
-        messageApi.error(error.response.data.message ||  "Failed to create student says");
+        messageApi.error(
+          error.response.data.message || "Failed to create student says"
+        );
       } else {
         messageApi.error("Failed to create student says");
       }
@@ -139,7 +142,7 @@ export default function StudentSayList() {
     try {
       await DeleteStudentSays(videoId);
       messageApi.success("Video deleted successfully");
-      fetchVideos(); 
+      fetchVideos();
     } catch (error) {
       console.error(error);
       messageApi.error("Unable to delete video");
@@ -148,12 +151,14 @@ export default function StudentSayList() {
 
   const columns = [
     {
-      title: "Video",
+      title: "Video (Recommend 1080 × 1920）",
       dataIndex: "video",
       key: "video",
-      render: (video: { url: string }) =>
+      render: (video: {url: string}) =>
         video ? (
-          <a href={video.url} target="_blank">{video.url}</a>
+          <a href={video.url} target="_blank">
+            {video.url}
+          </a>
         ) : (
           "N/A"
         ),
@@ -163,16 +168,16 @@ export default function StudentSayList() {
       key: "action",
       render: (_: unknown, record: StudenySayListItem) => (
         <Popconfirm
-          title="注意！"
-          description="請問要刪除此產品嗎？"
-          onConfirm={() => handleDelete(record.id)} 
-          okText="刪除"
-          cancelText="取消"
+          title="Attention"
+          description="Are you sure you want to delete ?"
+          onConfirm={() => handleDelete(record.id)}
+          okText="Delete"
+          cancelText="Cancel"
         >
-        <Button type="dashed" icon={<DeleteOutlined />} danger>
-          Delete
-        </Button>
-      </Popconfirm>
+          <Button type="dashed" icon={<DeleteOutlined />} danger>
+            Delete
+          </Button>
+        </Popconfirm>
       ),
     },
   ];
@@ -225,7 +230,7 @@ export default function StudentSayList() {
         cancelText="Cancel"
       >
         <Form form={form} layout="vertical">
-         <Form.Item
+          <Form.Item
             label="Testimonial（Recommend 1080 × 1920）"
             name="videoId"
             rules={[{required: true, message: "Upload Testimonial Video"}]}
@@ -237,15 +242,17 @@ export default function StudentSayList() {
               }}
             />
           </Form.Item>
-          <Form.Item 
-            rules={[{ required: true, message:'Video cannot be empty'}]}>
-            <Upload 
-             beforeUpload={handleFileBeforeUpload}
+          <Form.Item
+            rules={[{required: true, message: "Video cannot be empty"}]}
+          >
+            <Upload
+              beforeUpload={handleFileBeforeUpload}
               customRequest={(options) =>
                 handleFileUpload({...options, field: "videoId"})
               }
               accept="video/*"
-              maxCount={1}>
+              maxCount={1}
+            >
               <Button icon={<UploadOutlined />}>Click to Upload</Button>
             </Upload>
           </Form.Item>

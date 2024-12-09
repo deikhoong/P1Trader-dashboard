@@ -185,7 +185,7 @@ export default function UserList() {
         onCancel={handleCancel}
         centered
         okText="Create"
-        cancelText="取消"
+        cancelText="Cancel"
       >
         <Form form={form} layout="vertical">
           <Form.Item

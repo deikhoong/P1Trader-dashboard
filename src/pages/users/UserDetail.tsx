@@ -95,14 +95,14 @@ export default function UserDetail() {
         </Typography.Title>
         <div className="flex gap-3">
           <Popconfirm
-            title="注意！"
-            description="請問要刪除此產品嗎？"
+            title="Attention"
+            description="Are you sure you want to delete ?"
             onConfirm={handleDelete}
-            okText="刪除"
-            cancelText="取消"
+            okText="Delete"
+            cancelText="Cancel"
           >
             <Button type="dashed" icon={<DeleteOutlined />} danger>
-              刪除
+              Delete
             </Button>
           </Popconfirm>
         </div>
